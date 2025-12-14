@@ -13,29 +13,27 @@
     }
     * { box-sizing: border-box; }
 
-    body {
-      margin: 0;
-      font-family: "Georgia", serif;
-      background: radial-gradient(circle at top, #fdf9f0 0, var(--cream) 45%, #ece1ce 100%);
-      color: var(--text);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-    }
+   body {
+  margin: 0;
+  font-family: "Georgia", serif;
+  background: radial-gradient(circle at top, #fdf9f0 0, var(--cream) 45%, #ece1ce 100%);
+  color: var(--text);
+}
 
-    .app-shell {
-      width: 100%;
-      max-width: 420px;
-      height: 720px;
-      background: #fffdf8;
-      border-radius: 28px;
-      box-shadow: 0 18px 40px rgba(0,0,0,0.15);
-      overflow: hidden;
-      border: 1px solid rgba(0,0,0,0.05);
-      display: flex;
-      flex-direction: column;
-    }
+/* ton “site” centré avec largeur max */
+.app-shell {
+  width: 100%;
+  max-width: 1200px;   /* large sur desktop */
+  margin: 0 auto;      /* centré */
+  min-height: 100vh;
+  background: #fffdf8;
+  border-radius: 0;    /* tu peux remettre du radius si tu veux un cadre */
+  box-shadow: none;    /* ou garder un léger shadow */
+  border: none;
+  display: flex;
+  flex-direction: column;
+}
+
 
     /* HEADER */
     .app-header {
@@ -259,6 +257,15 @@
       color: #5d554c;
       margin-bottom: 10px;
     }
+    #profileMixBar {
+      margin-top: 8px;
+      display: flex;
+      gap: 0;
+      height: 6px;
+      border-radius: 999px;
+      overflow: hidden;
+      background: #eee0cf;
+    }
 
     /* FAVORITES */
     .fav-list {
@@ -310,8 +317,9 @@
       background: #fff;
       transition: transform 0.2s ease;
     }
-    .toggle.active { background: var(--green); }
+    .toggle.active { background: #1f4b2c; }
     .toggle.active::before { transform: translateX(18px); }
+
     .secondary-btn {
       border-radius: 999px;
       border: 1px solid #d0c0aa;
@@ -323,7 +331,7 @@
       color: #5b4b3a;
     }
 
-    /* SWIPE GALLERY */
+    /* SWIPE / GLAMPING MOOD CARDS */
     .swipe-wrapper {
       position: relative;
       width: 100%;
@@ -352,6 +360,27 @@
       width: 100%;
       height: 65%;
       object-fit: cover;
+    }
+    .swipe-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      font-family: "Montserrat", system-ui, sans-serif;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      opacity: 0;
+      transition: opacity 0.15s ease;
+    }
+    .swipe-badge.like {
+      background: #e6f5ea;
+      color: #1f7a3b;
+    }
+    .swipe-badge.dislike {
+      background: #fbe4e0;
+      color: #b33939;
     }
     .swipe-card-body {
       padding: 8px 10px 10px;
@@ -406,6 +435,41 @@
     @media (max-width: 480px) {
       .app-shell { max-width: 100%; height: 100vh; border-radius: 0; }
     }
+	/* Layout global des vues sur grands écrans */
+@media (min-width: 768px) {
+  .views {
+    padding: 32px 40px 16px;
+  }
+
+  .card-shell {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .app-header {
+    padding: 16px 40px 10px;
+  }
+}
+
+/* Encore plus large : tu peux mettre deux colonnes si tu veux */
+@media (min-width: 1024px) {
+  .views {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+
+  .view.active {
+    flex: 1;
+    max-width: 700px;
+  }
+}
+@media (min-width: 768px) {
+  .swipe-wrapper {
+    height: 420px;
+  }
+}
+
   </style>
 </head>
 <body>
@@ -431,8 +495,22 @@
 
     <!-- VUES -->
     <div class="views">
+      <!-- WELCOME / ENTER THE SILENCE -->
+      <section class="view active" id="view-welcome">
+        <div class="card-shell" style="text-align:center;">
+          <h2 class="section-title" id="welcomeTitle">Enter the Silence</h2>
+          <p class="section-sub" id="welcomeSubtitle">
+            Take a breath, leave the noise at the gate.<br>
+            Then discover your glamping personality.
+          </p>
+          <button id="enterBtn" class="primary-btn" style="margin-top:12px;">
+            Enter the silence
+          </button>
+        </div>
+      </section>
+
       <!-- QUIZ -->
-      <section class="view active" id="view-quiz">
+      <section class="view" id="view-quiz">
         <div class="card-shell">
           <h2 class="section-title" id="quizTitle">Glamping Personality Quiz</h2>
           <p class="section-sub" id="quizSubtitle">
@@ -455,16 +533,15 @@
         </div>
       </section>
 
-      <!-- SWIPE GALLERY -->
+      <!-- GLAMPING MOOD CARDS -->
       <section class="view" id="view-swipe">
         <div class="card-shell">
-          <h2 class="section-title" id="swipeTitle">Swipe your glamping vibes</h2>
+          <h2 class="section-title" id="swipeTitle">Glamping Mood Cards</h2>
           <p class="section-sub" id="swipeSubtitle">
-            Swipez à droite si vous aimez, à gauche si ce n’est pas pour vous. Nous devinons votre type de glamping.
+            Swipez à droite si vous aimez, à gauche si ce n’est pas pour vous. Vos likes complètent votre glamping personality.
           </p>
 
           <div class="swipe-wrapper" id="swipeWrapper">
-            <!-- Les cartes seront injectées en JS -->
             <p class="swipe-empty" id="swipeEmpty">Commencez à swiper pour voir vos préférences.</p>
           </div>
 
@@ -479,11 +556,14 @@
       <section class="view" id="view-profile">
         <div class="card-shell profile-card">
           <h2 class="section-title" id="profileTitle">Votre glamping personality</h2>
-          <p class="section-sub" id="profileSubtitle">Basée sur vos réponses au quiz et vos swipes.</p>
+          <p class="section-sub" id="profileSubtitle">Basée sur vos réponses au quiz et vos mood cards.</p>
 
-          <div id="profileType" class="profile-type">Complétez le quiz ou la galerie pour découvrir votre profil.</div>
+          <div id="profileType" class="profile-type">
+            Commencez par le quiz ou les mood cards pour découvrir votre profil.
+          </div>
           <div id="profileTag" class="profile-tag" style="display:none;"></div>
           <p id="profileText" class="profile-text"></p>
+          <div id="profileMixBar"></div>
         </div>
       </section>
 
@@ -494,7 +574,7 @@
           <p class="section-sub" id="matchSubtitle">Des expériences recommandées selon votre glamping personality.</p>
           <div id="favList" class="fav-list">
             <p id="matchIntro" style="font-size:0.8rem;font-family:Montserrat,system-ui,sans-serif;color:#6b645b;">
-              Répondez au quiz ou utilisez la galerie pour voir les expériences qui correspondent à votre couple.
+              Répondez au quiz ou utilisez les Glamping Mood Cards pour voir les expériences qui correspondent à votre couple.
             </p>
           </div>
         </div>
@@ -519,15 +599,19 @@
       </section>
     </div>
 
-    <!-- TABS BAS DE L'APP -->
+    <!-- TABS -->
     <nav class="app-tabs">
-      <button class="tab active" data-view="quiz">
+      <button class="tab" data-view="welcome">
+        <span class="icon">🌙</span>
+        <span class="tab-label" id="tabWelcomeLabel">Intro</span>
+      </button>
+      <button class="tab" data-view="quiz">
         <span class="icon">❓</span>
         <span class="tab-label" id="tabQuizLabel">Quiz</span>
       </button>
       <button class="tab" data-view="swipe">
         <span class="icon">📷</span>
-        <span class="tab-label" id="tabSwipeLabel">Swipe</span>
+        <span class="tab-label" id="tabSwipeLabel">Mood</span>
       </button>
       <button class="tab" data-view="favorites">
         <span class="icon">✨</span>
@@ -540,662 +624,222 @@
     </nav>
   </div>
 
-  <!-- PARTIE 2/2 : tout le script JS viendra ici -->
-  <!-- <script> ... </script> -->
-
-</body>
-</html>
   <script>
-    // ===== CONFIG MULTILINGUE =====
-    const translations = {
-      fr: {
-        ui: {
-          appTitle: "Serenity Woods",
-          tagline: "What’s your glamping personality?",
-          quizTitle: "Glamping Personality Quiz",
-          quizSubtitle: "Répondez à 10 questions et découvrez votre expérience idéale à Serenity Woods.",
-          next: "Suivant →",
-          swipeTitle: "Swipe your glamping vibes",
-          swipeSubtitle: "Swipez à droite si vous aimez, à gauche si ce n’est pas pour vous. Nous devinons votre type de glamping.",
-          profileTitle: "Votre glamping personality",
-          profileSubtitle: "Basée sur vos réponses au quiz et vos swipes.",
-          profilePlaceholder: "Complétez le quiz ou la galerie pour découvrir votre profil.",
-          matchTitle: "Your Serenity Woods match",
-          matchSubtitle: "Des expériences recommandées selon votre glamping personality.",
-          matchIntro: "Répondez au quiz ou utilisez la galerie pour voir les expériences qui correspondent à votre couple.",
-          settingsTitle: "Settings",
-          settingsSubtitle: "Options simples pour votre expérience.",
-          settingsSoundLabel: "Sons du quiz",
-          settingsReplayLabel: "Rejouer le quiz",
-          reset: "Reset quiz",
-          tabQuiz: "Quiz",
-          tabSwipe: "Swipe",
-          tabMatch: "Match",
-          tabSettings: "Settings",
-          swipeEmpty: "Commencez à swiper pour voir vos préférences.",
-          questionLabel: (i, total) => `Question ${i} / ${total}`
-        },
-        questions: [
-          {
-            text: "Quand vous pensez à un week-end idéal, vous imaginez plutôt :",
-            answers: [
-              "Une cabane isolée, sans voisins, juste les arbres",
-              "Un lodge avec bain chaud et dîner aux chandelles",
-              "Des activités en pleine nature, chemins, vélo, kayak",
-              "Un hébergement confortable, proche de quelques services"
-            ]
-          },
-          {
-            text: "Le matin, votre mood :",
-            answers: [
-              "Réveil naturel, aucun réveil, juste le silence",
-              "Petit-déjeuner au lit avec vue, ambiance cosy",
-              "Lever tôt pour profiter au maximum des activités",
-              "Grasse matinée puis balade tranquille dans les bois"
-            ]
-          },
-          {
-            text: "Votre rapport au téléphone en week-end :",
-            answers: [
-              "Mode avion quasi tout le week-end",
-              "Quelques photos à deux, puis téléphone rangé",
-              "Photos, vidéos et carte pour explorer les environs",
-              "Je le garde pour le confort (infos pratiques, musique)"
-            ]
-          },
-          {
-            text: "Le soir, votre moment préféré :",
-            answers: [
-              "Lecture près du feu, sans bruit extérieur",
-              "Dîner aux chandelles, ambiance intimiste",
-              "Dernière balade, feu de camp, regarder les étoiles",
-              "Film, plaid, snacks gourmands dans un lodge douillet"
-            ]
-          },
-          {
-            text: "Niveau activités, vous êtes plutôt :",
-            answers: [
-              "Slow, yoga, respiration, marche lente en forêt",
-              "Moments à deux, spa, massages, temps de qualité",
-              "Randonnées, points de vue, sensation d’exploration",
-              "Un mélange de petites activités et beaucoup de chill"
-            ]
-          },
-          {
-            text: "Votre hébergement idéal à Serenity Woods :",
-            answers: [
-              "Cabane minimaliste, loin de tout, pas de vis-à-vis",
-              "Lodge romantique avec bain nordique ou jacuzzi privé",
-              "Cabane perchée ou spot avec accès direct aux sentiers",
-              "Tiny house confortable avec belle literie et vue"
-            ]
-          },
-          {
-            text: "Quand vous pensez au mot « luxe », vous voyez :",
-            answers: [
-              "Le temps, le calme, aucun planning",
-              "Des attentions, des détails, une ambiance pensée pour le couple",
-              "La liberté d’explorer, de tester, de bouger",
-              "Le confort, la chaleur, la sensation de cocon"
-            ]
-          },
-          {
-            text: "Votre activité signature à Serenity Woods serait :",
-            answers: [
-              "Déconnexion totale : respiration, journal, sieste en hamac",
-              "Bain chaud extérieur au coucher du soleil, à deux",
-              "Boucle de randonnée avec spots panoramiques",
-              "Brunch tardif, promenade, jeux de société dans la cabane"
-            ]
-          },
-          {
-            text: "En couple, vous cherchez surtout :",
-            answers: [
-              "Un endroit pour vraiment se recentrer ensemble",
-              "Des moments intenses, complices, en mode parenthèse à deux",
-              "Des souvenirs d’aventure à raconter ensuite",
-              "Un espace sécurisant où on se sent bien tous les deux"
-            ]
-          },
-          {
-            text: "Si vous deviez décrire votre vibe en un mot :",
-            answers: [
-              "Slow & minimaliste",
-              "Intense & amoureux",
-              "Curieux & dynamique",
-              "Cosy & chill"
-            ]
-          }
-        ],
-        profiles: {
-          detox: {
-            label: "Digital Detox Lovers",
-            tag: "Silence • Nature • Slow",
-            description:
-              "Vous rêvez d’un week-end où le temps ralentit vraiment : peu d’écrans, beaucoup de nature, des cabanes isolées et un cadre pensé pour respirer à deux.",
-            favorites: [
-              {
-                title: "Cabane Deep Forest",
-                text: "Cabane isolée, aucune route visible, accès direct aux sentiers et espace feu de camp pour se reconnecter loin du bruit."
-              },
-              {
-                title: "Rituel Digital Detox",
-                text: "Kit carnet + tisane + suggestions de micro-rituels pour couper des notifications et se reconnecter à soi et à l’autre."
-              }
-            ]
-          },
-          romantic: {
-            label: "Romantic Escapists",
-            tag: "Couple time • Intimité",
-            description:
-              "Votre priorité : créer une parenthèse à deux, avec des attentions, une ambiance cosy et des moments qui renforcent la complicité.",
-            favorites: [
-              {
-                title: "Lodge Moonlight",
-                text: "Lodge avec bain nordique privé, éclairages doux, playlist cosy et vue dégagée pour des soirées à deux."
-              },
-              {
-                title: "Signature Romantic Dinner",
-                text: "Dîner aux chandelles en lodge, produits locaux, ambiance intimiste et temps de qualité sans distraction."
-              }
-            ]
-          },
-          adventure: {
-            label: "Nature Adventurers",
-            tag: "Exploration • Outdoor",
-            description:
-              "Vous venez chercher des sensations, des sentiers, des panoramas et la satisfaction d’avoir vraiment exploré les alentours.",
-            favorites: [
-              {
-                title: "Cabane Panorama Trail",
-                text: "Cabane perchée proche des départs de randonnée, avec cartes de sentiers et conseils de spots secrets."
-              },
-              {
-                title: "Adventure Pack",
-                text: "Suggestions de boucles à pied ou à vélo, panier snack énergétique et conseils pour profiter de chaque journée dehors."
-              }
-            ]
-          },
-          comfort: {
-            label: "Cosy Comfort Seekers",
-            tag: "Cocon • Bien-être",
-            description:
-              "Vous cherchez surtout un cocon chaleureux : belle literie, bons repas, temps pour se poser et se faire plaisir sans pression.",
-            favorites: [
-              {
-                title: "Tiny House Cocoon",
-                text: "Tiny house lumineuse, literie haut de gamme, plaid, grande baie vitrée et petit-déjeuner livré."
-              },
-              {
-                title: "Slow Sunday Pack",
-                text: "Brunch tardif, sélection de jeux, suggestions de promenades douces et ambiance chill toute la journée."
-              }
-            ]
-          }
-        },
-        swipeCards: [
-          { id: 1, type: "detox", title: "Cabane en pleine forêt", tag: "Silence absolu", text: "Cabane isolée sans voisins, entourée d’arbres.", image: "image-detox-1.jpg" },
-          { id: 2, type: "romantic", title: "Bain nordique au coucher du soleil", tag: "Romantic spa", text: "Bain chaud extérieur avec vue.", image: "image-romantic-1.jpg" },
-          { id: 3, type: "adventure", title: "Randonnée panoramique", tag: "Nature aventure", text: "Sentier avec vue sur la vallée.", image: "image-adventure-1.jpg" },
-          { id: 4, type: "comfort", title: "Tiny house cocoon", tag: "Cosy & chill", text: "Intérieur chaleureux, grande literie, vue forêt.", image: "image-comfort-1.jpg" },
-          { id: 5, type: "detox", title: "Hamac entre les pins", tag: "Digital detox", text: "Sieste sans notifications, juste le vent.", image: "image-detox-2.jpg" },
-          { id: 6, type: "romantic", title: "Dîner aux chandelles", tag: "Couple time", text: "Table pour deux, produits locaux.", image: "image-romantic-2.jpg" }
+    /* ===== CONFIG SIMPLE – UNIQUEMENT FR pour l’instant ===== */
+    const questions = [
+      {
+        text: "Quand vous pensez à un week-end idéal, vous imaginez plutôt :",
+        answers: [
+          { text: "Une cabane isolée, sans voisins, juste les arbres", type: "detox" },
+          { text: "Un lodge avec bain chaud et dîner aux chandelles", type: "romantic" },
+          { text: "Des activités en pleine nature, chemins, vélo, kayak", type: "adventure" },
+          { text: "Un hébergement confortable, proche de quelques services", type: "comfort" }
         ]
       },
-      en: {
-        ui: {
-          appTitle: "Serenity Woods",
-          tagline: "What’s your glamping personality?",
-          quizTitle: "Glamping Personality Quiz",
-          quizSubtitle: "Answer 10 questions and discover your perfect Serenity Woods experience.",
-          next: "Next →",
-          swipeTitle: "Swipe your glamping vibes",
-          swipeSubtitle: "Swipe right if you like it, left if it’s not for you. We’ll guess your glamping type.",
-          profileTitle: "Your glamping personality",
-          profileSubtitle: "Based on your quiz answers and swipes.",
-          profilePlaceholder: "Complete the quiz or swipe gallery to reveal your profile.",
-          matchTitle: "Your Serenity Woods match",
-          matchSubtitle: "Experiences recommended for your glamping personality.",
-          matchIntro: "Use the quiz or the gallery to see the experiences that fit your couple.",
-          settingsTitle: "Settings",
-          settingsSubtitle: "Simple options for your experience.",
-          settingsSoundLabel: "Quiz sounds",
-          settingsReplayLabel: "Replay the quiz",
-          reset: "Reset quiz",
-          tabQuiz: "Quiz",
-          tabSwipe: "Swipe",
-          tabMatch: "Match",
-          tabSettings: "Settings",
-          swipeEmpty: "Start swiping to see your preferences.",
-          questionLabel: (i, total) => `Question ${i} / ${total}`
-        },
-        questions: [
-          {
-            text: "When you imagine a perfect weekend, you see:",
-            answers: [
-              "A remote cabin with no neighbours, only trees",
-              "A lodge with hot tub and candlelight dinner",
-              "Outdoor activities, trails, biking, kayaking",
-              "A comfy stay, close to a few services"
-            ]
-          },
-          {
-            text: "In the morning, your mood is:",
-            answers: [
-              "Natural wake-up, only silence",
-              "Breakfast in bed with a view, cosy vibe",
-              "Up early to make the most of the day",
-              "Slow morning, then an easy walk in the woods"
-            ]
-          },
-          {
-            text: "Your relationship with your phone on a weekend:",
-            answers: [
-              "Airplane mode almost all weekend",
-              "A few couple photos, then phone away",
-              "Photos, videos and maps to explore",
-              "I keep it for comfort (info, music)"
-            ]
-          },
-          {
-            text: "Your favorite moment in the evening:",
-            answers: [
-              "Reading by the fire in silence",
-              "Candlelight dinner, intimate vibe",
-              "Last walk, campfire, stargazing",
-              "Movie, snacks, cosy lodge evening"
-            ]
-          },
-          {
-            text: "For activities, you are more:",
-            answers: [
-              "Slow, yoga, breathing, slow forest walks",
-              "Couple time, spa, massages, quality time",
-              "Hiking, viewpoints, sense of exploration",
-              "Some small activities and a lot of chill"
-            ]
-          },
-          {
-            text: "Your ideal stay at Serenity Woods:",
-            answers: [
-              "Minimalist cabin, far from everything",
-              "Romantic lodge with private hot tub",
-              "Treehouse or spot with direct trail access",
-              "Tiny house with great bed and view"
-            ]
-          },
-          {
-            text: "When you think of “luxury”, you see:",
-            answers: [
-              "Time, silence, no schedule",
-              "Thoughtful details, a couple-focused ambiance",
-              "Freedom to explore and move around",
-              "Comfort, warmth, a cosy cocoon"
-            ]
-          },
-          {
-            text: "Your signature activity at Serenity Woods:",
-            answers: [
-              "Digital detox: breathing, journaling, naps in a hammock",
-              "Sunset hot tub session for two",
-              "Panoramic hiking loop",
-              "Late brunch, walk, board games in the cabin"
-            ]
-          },
-          {
-            text: "As a couple, you mainly look for:",
-            answers: [
-              "A place to reset and reconnect together",
-              "Intense, intimate moments, a bubble for two",
-              "Adventure memories to tell afterwards",
-              "A safe, comforting space where you both feel good"
-            ]
-          },
-          {
-            text: "If you had to pick one word:",
-            answers: [
-              "Slow & minimalist",
-              "Intense & romantic",
-              "Curious & active",
-              "Cosy & chill"
-            ]
-          }
-        ],
-        profiles: {
-          detox: {
-            label: "Digital Detox Lovers",
-            tag: "Silence • Nature • Slow",
-            description:
-              "You dream of a weekend where time really slows down: almost no screens, lots of nature, secluded cabins and space to breathe together.",
-            favorites: [
-              {
-                title: "Deep Forest Cabin",
-                text: "Remote cabin, no visible road, direct access to trails and a campfire area to disconnect from the noise."
-              },
-              {
-                title: "Digital Detox Ritual",
-                text: "Notebook, herbal tea and micro-rituals to disconnect from notifications and reconnect with each other."
-              }
-            ]
-          },
-          romantic: {
-            label: "Romantic Escapists",
-            tag: "Couple time • Intimacy",
-            description:
-              "Your priority is creating a real bubble for two, with small touches, a cosy atmosphere and meaningful moments.",
-            favorites: [
-              {
-                title: "Moonlight Lodge",
-                text: "Lodge with private hot tub, soft lighting, cosy playlist and open view for evenings together."
-              },
-              {
-                title: "Signature Romantic Dinner",
-                text: "Candlelight lodge dinner, local products and intimate atmosphere without distractions."
-              }
-            ]
-          },
-          adventure: {
-            label: "Nature Adventurers",
-            tag: "Exploration • Outdoor",
-            description:
-              "You come for sensations, trails, viewpoints and the satisfaction of having truly explored the surroundings.",
-            favorites: [
-              {
-                title: "Panorama Trail Cabin",
-                text: "Treehouse close to hiking starts, with trail maps and tips for secret spots."
-              },
-              {
-                title: "Adventure Pack",
-                text: "Recommended walking or biking loops, snacks and tips to enjoy every day outside."
-              }
-            ]
-          },
-          comfort: {
-            label: "Cosy Comfort Seekers",
-            tag: "Cocoon • Well-being",
-            description:
-              "You mainly want a warm cocoon: great bedding, good food, time to slow down and enjoy without pressure.",
-            favorites: [
-              {
-                title: "Cocoon Tiny House",
-                text: "Tiny house with high-quality bedding, blanket, large window and breakfast delivered."
-              },
-              {
-                title: "Slow Sunday Pack",
-                text: "Late brunch, games selection, gentle walk suggestions and chill vibes all day."
-              }
-            ]
-          }
-        },
-        swipeCards: [
-          { id: 1, type: "detox", title: "Cabin deep in the woods", tag: "Total silence", text: "Remote cabin surrounded by trees.", image: "image-detox-1.jpg" },
-          { id: 2, type: "romantic", title: "Sunset hot tub", tag: "Romantic spa", text: "Outdoor hot tub with a view.", image: "image-romantic-1.jpg" },
-          { id: 3, type: "adventure", title: "Panoramic hike", tag: "Nature adventure", text: "Trail with valley views.", image: "image-adventure-1.jpg" },
-          { id: 4, type: "comfort", title: "Cosy tiny house", tag: "Cosy & chill", text: "Warm interior, big bed, forest view.", image: "image-comfort-1.jpg" },
-          { id: 5, type: "detox", title: "Hammock between pines", tag: "Digital detox", text: "Nap without notifications.", image: "image-detox-2.jpg" },
-          { id: 6, type: "romantic", title: "Candlelight dinner", tag: "Couple time", text: "Table for two with local products.", image: "image-romantic-2.jpg" }
+      {
+        text: "Le matin, votre mood :",
+        answers: [
+          { text: "Réveil naturel, aucun réveil, juste le silence", type: "detox" },
+          { text: "Petit-déjeuner au lit avec vue, ambiance cosy", type: "romantic" },
+          { text: "Lever tôt pour profiter au maximum des activités", type: "adventure" },
+          { text: "Grasse matinée puis balade tranquille dans les bois", type: "comfort" }
         ]
       },
-      nl: {
-        ui: {
-          appTitle: "Serenity Woods",
-          tagline: "What’s your glamping personality?",
-          quizTitle: "Glamping Personality Quiz",
-          quizSubtitle: "Beantwoord 10 vragen en ontdek jullie ideale Serenity Woods beleving.",
-          next: "Volgende →",
-          swipeTitle: "Swipe je glamping vibes",
-          swipeSubtitle: "Swipe naar rechts als je het leuk vindt, naar links als het niets voor jullie is. Wij raden jullie glampingtype.",
-          profileTitle: "Jouw glamping personality",
-          profileSubtitle: "Gebaseerd op je quizantwoorden en swipes.",
-          profilePlaceholder: "Vul de quiz of de galerij in om je profiel te ontdekken.",
-          matchTitle: "Jullie Serenity Woods match",
-          matchSubtitle: "Aanbevolen experiences op basis van je glamping personality.",
-          matchIntro: "Gebruik de quiz of de galerij om de experiences te zien die bij jullie passen.",
-          settingsTitle: "Instellingen",
-          settingsSubtitle: "Eenvoudige opties voor je ervaring.",
-          settingsSoundLabel: "Quizgeluiden",
-          settingsReplayLabel: "Quiz opnieuw spelen",
-          reset: "Quiz resetten",
-          tabQuiz: "Quiz",
-          tabSwipe: "Swipe",
-          tabMatch: "Match",
-          tabSettings: "Instellingen",
-          swipeEmpty: "Begin te swipen om je voorkeuren te zien.",
-          questionLabel: (i, total) => `Vraag ${i} / ${total}`
-        },
-        questions: [
+      {
+        text: "Votre rapport au téléphone en week-end :",
+        answers: [
+          { text: "Mode avion quasi tout le week-end", type: "detox" },
+          { text: "Quelques photos à deux, puis téléphone rangé", type: "romantic" },
+          { text: "Photos, vidéos et carte pour explorer les environs", type: "adventure" },
+          { text: "Je le garde pour le confort (infos pratiques, musique)", type: "comfort" }
+        ]
+      },
+      {
+        text: "Le soir, votre moment préféré :",
+        answers: [
+          { text: "Lecture près du feu, sans bruit extérieur", type: "detox" },
+          { text: "Dîner aux chandelles, ambiance intimiste", type: "romantic" },
+          { text: "Dernière balade, feu de camp, regarder les étoiles", type: "adventure" },
+          { text: "Film, plaid, snacks gourmands dans un lodge douillet", type: "comfort" }
+        ]
+      },
+      {
+        text: "Niveau activités, vous êtes plutôt :",
+        answers: [
+          { text: "Slow, yoga, respiration, marche lente en forêt", type: "detox" },
+          { text: "Moments à deux, spa, massages, temps de qualité", type: "romantic" },
+          { text: "Randonnées, points de vue, sensation d’exploration", type: "adventure" },
+          { text: "Un mélange de petites activités et beaucoup de chill", type: "comfort" }
+        ]
+      },
+      {
+        text: "Votre hébergement idéal à Serenity Woods :",
+        answers: [
+          { text: "Cabane minimaliste, loin de tout, pas de vis-à-vis", type: "detox" },
+          { text: "Lodge romantique avec bain nordique ou jacuzzi privé", type: "romantic" },
+          { text: "Cabane perchée ou spot avec accès direct aux sentiers", type: "adventure" },
+          { text: "Tiny house confortable avec belle literie et vue", type: "comfort" }
+        ]
+      },
+      {
+        text: "Quand vous pensez au mot « luxe », vous voyez :",
+        answers: [
+          { text: "Le temps, le calme, aucun planning", type: "detox" },
+          { text: "Des attentions, des détails, une ambiance pensée pour le couple", type: "romantic" },
+          { text: "La liberté d’explorer, de tester, de bouger", type: "adventure" },
+          { text: "Le confort, la chaleur, la sensation de cocon", type: "comfort" }
+        ]
+      },
+      {
+        text: "Votre activité signature à Serenity Woods serait :",
+        answers: [
+          { text: "Déconnexion totale : respiration, journal, sieste en hamac", type: "detox" },
+          { text: "Bain chaud extérieur au coucher du soleil, à deux", type: "romantic" },
+          { text: "Boucle de randonnée avec spots panoramiques", type: "adventure" },
+          { text: "Brunch tardif, promenade, jeux de société dans la cabane", type: "comfort" }
+        ]
+      },
+      {
+        text: "En couple, vous cherchez surtout :",
+        answers: [
+          { text: "Un endroit pour vraiment se recentrer ensemble", type: "detox" },
+          { text: "Des moments intenses, complices, en mode parenthèse à deux", type: "romantic" },
+          { text: "Des souvenirs d’aventure à raconter ensuite", type: "adventure" },
+          { text: "Un espace sécurisant où on se sent bien tous les deux", type: "comfort" }
+        ]
+      },
+      {
+        text: "Si vous deviez décrire votre vibe en un mot :",
+        answers: [
+          { text: "Slow & minimaliste", type: "detox" },
+          { text: "Intense & amoureux", type: "romantic" },
+          { text: "Curieux & dynamique", type: "adventure" },
+          { text: "Cosy & chill", type: "comfort" }
+        ]
+      }
+    ];
+
+    const moodCards = [
+      { type: "detox", title: "Cabane en pleine forêt", tag: "Silence absolu", text: "Cabane isolée, entourée d’arbres.", image: "image-detox-1.jpg" },
+      { type: "romantic", title: "Bain nordique au coucher du soleil", tag: "Romantic spa", text: "Bain chaud extérieur avec vue.", image: "image-romantic-1.jpg" },
+      { type: "adventure", title: "Randonnée panoramique", tag: "Nature aventure", text: "Sentier avec vue sur la vallée.", image: "image-adventure-1.jpg" },
+      { type: "comfort", title: "Tiny house cocoon", tag: "Cosy & chill", text: "Intérieur chaleureux, grande literie.", image: "image-comfort-1.jpg" },
+      { type: "detox", title: "Hamac entre les pins", tag: "Digital detox", text: "Sieste sans notifications.", image: "image-detox-2.jpg" },
+      { type: "romantic", title: "Dîner aux chandelles", tag: "Couple time", text: "Table pour deux, produits locaux.", image: "image-romantic-2.jpg" }
+    ];
+
+    const profiles = {
+      detox: {
+        label: "Digital Detox Lovers",
+        tag: "Silence • Nature • Slow",
+        description:
+          "Vous rêvez d’un week-end où le temps ralentit vraiment : peu d’écrans, beaucoup de nature, des cabanes isolées et un cadre pensé pour respirer à deux.",
+        favorites: [
           {
-            text: "Als je aan een ideaal weekend denkt, zie je vooral:",
-            answers: [
-              "Een afgelegen cabin zonder buren, alleen bomen",
-              "Een lodge met hot tub en diner bij kaarslicht",
-              "Outdoor activiteiten, paden, fietsen, kajakken",
-              "Een comfortabel verblijf dicht bij enkele faciliteiten"
-            ]
+            title: "Cabane Deep Forest",
+            text: "Cabane isolée, aucune route visible, accès direct aux sentiers et espace feu de camp pour se reconnecter loin du bruit."
           },
           {
-            text: "In de ochtend is je mood:",
-            answers: [
-              "Natuurlijk wakker worden, alleen stilte",
-              "Ontbijt op bed met uitzicht, cosy sfeer",
-              "Vroeg opstaan om zoveel mogelijk mee te pakken",
-              "Lang uitslapen en daarna een rustige boswandeling"
-            ]
-          },
-          {
-            text: "Je relatie met je telefoon in het weekend:",
-            answers: [
-              "Bijna het hele weekend vliegtuigstand",
-              "Enkele foto’s samen, daarna telefoon weg",
-              "Foto’s, video’s en kaart om te ontdekken",
-              "Ik gebruik hem voor comfort (info, muziek)"
-            ]
-          },
-          {
-            text: "Je favoriete moment ‘s avonds:",
-            answers: [
-              "Lezen bij het vuur in stilte",
-              "Diner bij kaarslicht, intieme sfeer",
-              "Laatste wandeling, kampvuur, sterren kijken",
-              "Film, snacks, cosy avond in de lodge"
-            ]
-          },
-          {
-            text: "Qua activiteiten ben je eerder:",
-            answers: [
-              "Slow, yoga, ademhaling, trage boswandelingen",
-              "Tijd met z’n tweeën, spa, massages, quality time",
-              "Hiken, viewpoints, gevoel van avontuur",
-              "Een paar kleine activiteiten en veel chill"
-            ]
-          },
-          {
-            text: "Je ideale verblijf bij Serenity Woods:",
-            answers: [
-              "Minimalistische cabin, ver weg van alles",
-              "Romantische lodge met privé hot tub",
-              "Boomhut of plek met directe trailtoegang",
-              "Tiny house met heerlijk bed en uitzicht"
-            ]
-          },
-          {
-            text: "Bij het woord ‘luxe’ denk je aan:",
-            answers: [
-              "Tijd, stilte, geen planning",
-              "Attenties, details, een sfeer voor koppels",
-              "Vrijheid om te ontdekken en te bewegen",
-              "Comfort, warmte, een knusse cocon"
-            ]
-          },
-          {
-            text: "Jouw signature activiteit bij Serenity Woods:",
-            answers: [
-              "Digital detox: ademhaling, journaling, dutjes in een hangmat",
-              "Hot tub bij zonsondergang met z’n tweeën",
-              "Panoramische wandelroute",
-              "Late brunch, wandeling, gezelschapsspelletjes in de cabin"
-            ]
-          },
-          {
-            text: "Als koppel zoeken jullie vooral:",
-            answers: [
-              "Een plek om echt te resetten en te reconnecten",
-              "Intense, intieme momenten, een bubbel voor twee",
-              "Avonturen om later over te vertellen",
-              "Een veilige, comfortabele plek waar jullie je goed voelen"
-            ]
-          },
-          {
-            text: "Als je één woord moet kiezen:",
-            answers: [
-              "Slow & minimalistisch",
-              "Intens & romantisch",
-              "Nieuwsgierig & actief",
-              "Cosy & chill"
-            ]
+            title: "Rituel Digital Detox",
+            text: "Carnet, tisane et micro-rituels pour couper les notifications et se reconnecter à soi et à l’autre."
           }
-        ],
-        profiles: {
-          detox: {
-            label: "Digital Detox Lovers",
-            tag: "Stilte • Natuur • Slow",
-            description:
-              "Jullie dromen van een weekend waarin de tijd echt vertraagt: bijna geen schermen, veel natuur en afgelegen cabins om samen op adem te komen.",
-            favorites: [
-              {
-                title: "Deep Forest Cabin",
-                text: "Afgelegen cabin zonder zichtbare weg, directe toegang tot wandelpaden en kampvuurplek."
-              },
-              {
-                title: "Digital Detox Ritueel",
-                text: "Notitieboek, kruidenthee en micro-rituelen om notificaties los te laten en dichter bij elkaar te komen."
-              }
-            ]
+        ]
+      },
+      romantic: {
+        label: "Romantic Escapists",
+        tag: "Couple time • Intimité",
+        description:
+          "Votre priorité : créer une parenthèse à deux, avec des attentions, une ambiance cosy et des moments qui renforcent la complicité.",
+        favorites: [
+          {
+            title: "Lodge Moonlight",
+            text: "Lodge avec bain nordique privé, éclairages doux, playlist cosy et vue dégagée."
           },
-          romantic: {
-            label: "Romantic Escapists",
-            tag: "Couple time • Intimiteit",
-            description:
-              "Jullie willen vooral een echte bubbel voor twee, met kleine attenties, cosy sfeer en betekenisvolle momenten.",
-            favorites: [
-              {
-                title: "Moonlight Lodge",
-                text: "Lodge met privé hot tub, zachte verlichting, cosy playlist en open uitzicht."
-              },
-              {
-                title: "Signature Romantic Dinner",
-                text: "Diner bij kaarslicht in de lodge, lokale producten en volledige focus op elkaar."
-              }
-            ]
-          },
-          adventure: {
-            label: "Nature Adventurers",
-            tag: "Exploratie • Outdoor",
-            description:
-              "Jullie komen voor avontuur, paden, viewpoints en het gevoel echt buiten te leven.",
-            favorites: [
-              {
-                title: "Panorama Trail Cabin",
-                text: "Boomhut dicht bij de start van wandelroutes, met kaarten en tips voor geheime spots."
-              },
-              {
-                title: "Adventure Pack",
-                text: "Aanbevolen wandel- of fietslussen, snacks en tips om elke dag buiten te profiteren."
-              }
-            ]
-          },
-          comfort: {
-            label: "Cosy Comfort Seekers",
-            tag: "Cocon • Welzijn",
-            description:
-              "Jullie zoeken vooral een warme cocon: goed bed, lekker eten, tijd om te vertragen en te genieten zonder druk.",
-            favorites: [
-              {
-                title: "Cocoon Tiny House",
-                text: "Tiny house met kwaliteitsbed, plaid, grote ramen en ontbijt aan de deur."
-              },
-              {
-                title: "Slow Sunday Pack",
-                text: "Late brunch, selectie spelletjes, zachte wandelingen en de hele dag chill."
-              }
-            ]
+          {
+            title: "Signature Romantic Dinner",
+            text: "Dîner aux chandelles en lodge, produits locaux et ambiance intimiste."
           }
-        },
-        swipeCards: [
-          { id: 1, type: "detox", title: "Cabin diep in het bos", tag: "Totale stilte", text: "Afgelegen cabin tussen de bomen.", image: "image-detox-1.jpg" },
-          { id: 2, type: "romantic", title: "Hot tub bij zonsondergang", tag: "Romantic spa", text: "Buitenbad met uitzicht.", image: "image-romantic-1.jpg" },
-          { id: 3, type: "adventure", title: "Panoramische hike", tag: "Nature adventure", text: "Route met uitzicht over de vallei.", image: "image-adventure-1.jpg" },
-          { id: 4, type: "comfort", title: "Cosy tiny house", tag: "Cosy & chill", text: "Warm interieur, groot bed, boszicht.", image: "image-comfort-1.jpg" },
-          { id: 5, type: "detox", title: "Hangmat tussen de dennen", tag: "Digital detox", text: "Dutje zonder notificaties.", image: "image-detox-2.jpg" },
-          { id: 6, type: "romantic", title: "Diner bij kaarslicht", tag: "Couple time", text: "Tafel voor twee met lokale producten.", image: "image-romantic-2.jpg" }
+        ]
+      },
+      adventure: {
+        label: "Nature Adventurers",
+        tag: "Exploration • Outdoor",
+        description:
+          "Vous venez chercher des sensations, des sentiers, des panoramas et la satisfaction d’avoir vraiment exploré les alentours.",
+        favorites: [
+          {
+            title: "Cabane Panorama Trail",
+            text: "Cabane perchée proche des départs de randonnée, avec cartes de sentiers et spots secrets."
+          },
+          {
+            title: "Adventure Pack",
+            text: "Boucles à pied ou à vélo, snack énergétique et conseils pour profiter de chaque journée dehors."
+          }
+        ]
+      },
+      comfort: {
+        label: "Cosy Comfort Seekers",
+        tag: "Cocon • Bien-être",
+        description:
+          "Vous cherchez surtout un cocon chaleureux : belle literie, bons repas, temps pour se poser et se faire plaisir sans pression.",
+        favorites: [
+          {
+            title: "Tiny House Cocoon",
+            text: "Tiny house lumineuse, literie haut de gamme, plaid, grande baie vitrée et petit-déjeuner livré."
+          },
+          {
+            title: "Slow Sunday Pack",
+            text: "Brunch tardif, jeux, promenades douces et ambiance chill toute la journée."
+          }
         ]
       }
     };
 
-    const answerTypes = ["detox", "romantic", "adventure", "comfort"];
-
-    // ===== ÉTAT GLOBAL =====
-    let currentLang = "fr";
-    let questions = [];
+    // ÉTAT
     let currentQuestion = 0;
     let answersHistory = [];
-    let swipeIndex = 0;
-    let swipeLikes = [];
+    let moodLikes = [];
     let scores = { detox: 0, romantic: 0, adventure: 0, comfort: 0 };
-    let soundOn = false;
 
-    // ===== RÉFÉRENCES DOM =====
+    // DOM
     const views = document.querySelectorAll(".view");
     const tabs = document.querySelectorAll(".tab");
+    const enterBtn = document.getElementById("enterBtn");
     const profileIcon = document.querySelector(".profile-icon");
 
-    const quizTitleEl = document.getElementById("quizTitle");
-    const quizSubtitleEl = document.getElementById("quizSubtitle");
     const quizStepLabel = document.getElementById("quizStepLabel");
     const quizFill = document.getElementById("quizFill");
     const quizQuestion = document.getElementById("quizQuestion");
     const quizAnswers = document.getElementById("quizAnswers");
     const nextBtn = document.getElementById("nextBtn");
 
-    const swipeTitleEl = document.getElementById("swipeTitle");
-    const swipeSubtitleEl = document.getElementById("swipeSubtitle");
     const swipeWrapper = document.getElementById("swipeWrapper");
     const swipeEmptyEl = document.getElementById("swipeEmpty");
     const likeBtn = document.getElementById("likeBtn");
     const dislikeBtn = document.getElementById("dislikeBtn");
 
-    const profileTitleEl = document.getElementById("profileTitle");
-    const profileSubtitleEl = document.getElementById("profileSubtitle");
     const profileTypeEl = document.getElementById("profileType");
     const profileTagEl = document.getElementById("profileTag");
     const profileTextEl = document.getElementById("profileText");
-
-    const matchTitleEl = document.getElementById("matchTitle");
-    const matchSubtitleEl = document.getElementById("matchSubtitle");
-    const matchIntroEl = document.getElementById("matchIntro");
+    const profileMixBar = document.getElementById("profileMixBar");
     const favListEl = document.getElementById("favList");
+    const matchIntroEl = document.getElementById("matchIntro");
 
-    const settingsTitleEl = document.getElementById("settingsTitle");
-    const settingsSubtitleEl = document.getElementById("settingsSubtitle");
-    const settingsSoundLabelEl = document.getElementById("settingsSoundLabel");
-    const settingsReplayLabelEl = document.getElementById("settingsReplayLabel");
     const soundToggle = document.getElementById("soundToggle");
     const restartBtn = document.getElementById("restartBtn");
 
+    const langButtons = document.querySelectorAll(".lang-btn");
+    const tabWelcomeLabel = document.getElementById("tabWelcomeLabel");
     const tabQuizLabel = document.getElementById("tabQuizLabel");
     const tabSwipeLabel = document.getElementById("tabSwipeLabel");
     const tabMatchLabel = document.getElementById("tabMatchLabel");
     const tabSettingsLabel = document.getElementById("tabSettingsLabel");
 
-    const langButtons = document.querySelectorAll(".lang-btn");
-
-    // ===== NAVIGATION VUES =====
+    // NAVIGATION
     function showView(id) {
       views.forEach(v => v.classList.remove("active"));
       document.getElementById("view-" + id).classList.add("active");
-      tabs.forEach(t => {
-        t.classList.toggle("active", t.dataset.view === id);
-      });
+      tabs.forEach(t => t.classList.toggle("active", t.dataset.view === id));
     }
 
     tabs.forEach(tab => {
@@ -1203,199 +847,32 @@
     });
 
     profileIcon.addEventListener("click", () => showView("profile"));
+    enterBtn.addEventListener("click", () => showView("quiz"));
 
-    // ===== BUILD QUESTIONS PAR LANGUE =====
-    function buildQuestionsForLang(lang) {
-      const qTrans = translations[lang].questions;
-      questions = qTrans.map(q => ({
-        text: q.text,
-        answers: q.answers.map((text, index) => ({
-          text,
-          type: answerTypes[index]
-        }))
-      }));
-    }
-
-    // ===== UI I18N =====
-    function applyUiTranslations() {
-      const t = translations[currentLang].ui;
-      document.querySelector(".app-brand h1").textContent = t.appTitle;
-      document.querySelector(".tagline").textContent = t.tagline;
-
-      quizTitleEl.textContent = t.quizTitle;
-      quizSubtitleEl.textContent = t.quizSubtitle;
-      nextBtn.textContent = t.next;
-
-      swipeTitleEl.textContent = t.swipeTitle;
-      swipeSubtitleEl.textContent = t.swipeSubtitle;
-      swipeEmptyEl.textContent = t.swipeEmpty;
-
-      profileTitleEl.textContent = t.profileTitle;
-      profileSubtitleEl.textContent = t.profileSubtitle;
-
-      matchTitleEl.textContent = t.matchTitle;
-      matchSubtitleEl.textContent = t.matchSubtitle;
-      matchIntroEl.textContent = t.matchIntro;
-
-      settingsTitleEl.textContent = t.settingsTitle;
-      settingsSubtitleEl.textContent = t.settingsSubtitle;
-      settingsSoundLabelEl.textContent = t.settingsSoundLabel;
-      settingsReplayLabelEl.textContent = t.settingsReplayLabel;
-      restartBtn.textContent = t.reset;
-
-      tabQuizLabel.textContent = t.tabQuiz;
-      tabSwipeLabel.textContent = t.tabSwipe;
-      tabMatchLabel.textContent = t.tabMatch;
-      tabSettingsLabel.textContent = t.tabSettings;
-
-      if (!answersHistory.length && !swipeLikes.length) {
-        profileTypeEl.textContent = t.profilePlaceholder;
-        profileTagEl.style.display = "none";
-        profileTextEl.textContent = "";
-      }
-    }
-
-    // ===== AFFICHAGE QUESTION =====
+    // QUIZ
     function renderQuestion() {
-      const t = translations[currentLang].ui;
       const q = questions[currentQuestion];
       quizQuestion.textContent = q.text;
       quizAnswers.innerHTML = "";
       nextBtn.disabled = true;
 
-      q.answers.forEach(answer => {
+      q.answers.forEach(ans => {
         const btn = document.createElement("button");
         btn.className = "answer-btn";
-        btn.textContent = answer.text;
+        btn.textContent = ans.text;
         btn.addEventListener("click", () => {
-          document
-            .querySelectorAll(".answer-btn")
-            .forEach(b => b.classList.remove("selected"));
+          document.querySelectorAll(".answer-btn").forEach(b => b.classList.remove("selected"));
           btn.classList.add("selected");
-          answersHistory[currentQuestion] = answer.type;
+          answersHistory[currentQuestion] = ans.type;
           nextBtn.disabled = false;
         });
         quizAnswers.appendChild(btn);
       });
 
-      quizStepLabel.textContent = t.questionLabel(currentQuestion + 1, questions.length);
+      quizStepLabel.textContent = `Question ${currentQuestion + 1} / ${questions.length}`;
       quizFill.style.width = ((currentQuestion + 1) / questions.length) * 100 + "%";
     }
 
-    // ===== SWIPE CARDS =====
-    function renderSwipeCards() {
-      const cardsConfig = translations[currentLang].swipeCards;
-      swipeWrapper.innerHTML = "";
-      swipeLikes = [];
-      swipeIndex = 0;
-
-      if (!cardsConfig.length) {
-        swipeWrapper.innerHTML = `<p class="swipe-empty">${translations[currentLang].ui.swipeEmpty}</p>`;
-        return;
-      }
-
-      for (let i = cardsConfig.length - 1; i >= 0; i--) {
-        const c = cardsConfig[i];
-        const card = document.createElement("div");
-        card.className = "swipe-card";
-        card.dataset.type = c.type;
-        card.dataset.index = i;
-
-        card.innerHTML = `
-          <img src="${c.image}" alt="${c.title}">
-          <div class="swipe-card-body">
-            <div class="swipe-label">${c.title}</div>
-            <div class="swipe-tag">${c.tag}</div>
-            <div>${c.text}</div>
-          </div>
-        `;
-        swipeWrapper.appendChild(card);
-      }
-    }
-
-    function getTopSwipeCard() {
-      const cards = swipeWrapper.querySelectorAll(".swipe-card");
-      if (!cards.length) return null;
-      return cards[cards.length - 1];
-    }
-
-    function handleSwipe(liked) {
-      const card = getTopSwipeCard();
-      if (!card) return;
-
-      if (liked) {
-        swipeLikes.push(card.dataset.type);
-        card.style.transform = "translateX(120%) rotate(10deg)";
-      } else {
-        card.style.transform = "translateX(-120%) rotate(-10deg)";
-      }
-      card.style.opacity = "0";
-      setTimeout(() => {
-        card.remove();
-        if (!getTopSwipeCard()) {
-          swipeWrapper.innerHTML = `<p class="swipe-empty">${translations[currentLang].ui.swipeEmpty}</p>`;
-          updateProfileAndFavorites();
-        }
-      }, 200);
-    }
-
-    likeBtn.addEventListener("click", () => handleSwipe(true));
-    dislikeBtn.addEventListener("click", () => handleSwipe(false));
-
-    // ===== CALCUL PROFIL =====
-    function computeProfile() {
-      scores = { detox: 0, romantic: 0, adventure: 0, comfort: 0 };
-
-      answersHistory.forEach(type => {
-        if (scores[type] != null) scores[type]++;
-      });
-
-      swipeLikes.forEach(type => {
-        if (scores[type] != null) scores[type]++;
-      });
-
-      let topType = "detox";
-      let maxScore = -1;
-      for (const [type, value] of Object.entries(scores)) {
-        if (value > maxScore) {
-          maxScore = value;
-          topType = type;
-        }
-      }
-      return topType;
-    }
-
-    function updateProfileAndFavorites() {
-      const profileSet = translations[currentLang].profiles;
-      const topType = computeProfile();
-      const cfg = profileSet[topType];
-
-      if (!answersHistory.length && !swipeLikes.length) {
-        profileTypeEl.textContent = translations[currentLang].ui.profilePlaceholder;
-        profileTagEl.style.display = "none";
-        profileTextEl.textContent = "";
-        favListEl.innerHTML = `<p style="font-size:0.8rem;font-family:Montserrat,system-ui,sans-serif;color:#6b645b;">${translations[currentLang].ui.matchIntro}</p>`;
-        return;
-      }
-
-      profileTypeEl.textContent = cfg.label;
-      profileTagEl.style.display = "inline-block";
-      profileTagEl.textContent = cfg.tag;
-      profileTextEl.textContent = cfg.description;
-
-      favListEl.innerHTML = "";
-      cfg.favorites.forEach(item => {
-        const div = document.createElement("div");
-        div.className = "fav-item";
-        div.innerHTML = `
-          <div class="fav-title">${item.title}</div>
-          <div>${item.text}</div>
-        `;
-        favListEl.appendChild(div);
-      });
-    }
-
-    // ===== QUIZ BTN SUIVANT =====
     nextBtn.addEventListener("click", () => {
       if (currentQuestion < questions.length - 1) {
         currentQuestion++;
@@ -1406,52 +883,167 @@
       }
     });
 
-    // ===== SETTINGS =====
+    // MOOD CARDS
+    function renderMoodCards() {
+      swipeWrapper.innerHTML = "";
+      moodLikes = [];
+
+      if (!moodCards.length) {
+        swipeWrapper.innerHTML = `<p class="swipe-empty">Aucune carte pour l’instant.</p>`;
+        return;
+      }
+
+      // Du bas vers le haut
+      for (let i = moodCards.length - 1; i >= 0; i--) {
+        const c = moodCards[i];
+        const card = document.createElement("div");
+        card.className = "swipe-card";
+        card.dataset.type = c.type;
+        card.innerHTML = `
+          <img src="${c.image}" alt="${c.title}">
+          <div class="swipe-badge like">LIKE</div>
+          <div class="swipe-badge dislike">NOPE</div>
+          <div class="swipe-card-body">
+            <div class="swipe-label">${c.title}</div>
+            <div class="swipe-tag">${c.tag}</div>
+            <div>${c.text}</div>
+          </div>
+        `;
+        swipeWrapper.appendChild(card);
+      }
+    }
+
+    function getTopCard() {
+      const cards = swipeWrapper.querySelectorAll(".swipe-card");
+      if (!cards.length) return null;
+      return cards[cards.length - 1];
+    }
+
+    function swipe(liked) {
+      const card = getTopCard();
+      if (!card) return;
+
+      const likeBadge = card.querySelector(".swipe-badge.like");
+      const dislikeBadge = card.querySelector(".swipe-badge.dislike");
+
+      if (liked) {
+        moodLikes.push(card.dataset.type);
+        likeBadge.style.opacity = "1";
+        card.style.transform = "translateX(120%) rotate(10deg)";
+      } else {
+        dislikeBadge.style.opacity = "1";
+        card.style.transform = "translateX(-120%) rotate(-10deg)";
+      }
+      card.style.opacity = "0";
+
+      setTimeout(() => {
+        card.remove();
+        if (!getTopCard()) {
+          swipeWrapper.innerHTML = `<p class="swipe-empty">Vous avez vu toutes les cartes. Consultez votre profil.</p>`;
+          updateProfileAndFavorites();
+        }
+      }, 220);
+    }
+
+    likeBtn.addEventListener("click", () => swipe(true));
+    dislikeBtn.addEventListener("click", () => swipe(false));
+
+    // PROFIL
+    function computeScores() {
+      scores = { detox: 0, romantic: 0, adventure: 0, comfort: 0 };
+      answersHistory.forEach(t => { if (scores[t] != null) scores[t]++; });
+      moodLikes.forEach(t => { if (scores[t] != null) scores[t]++; });
+    }
+
+    function getTopType() {
+      computeScores();
+      let max = -1;
+      let top = "detox";
+      Object.entries(scores).forEach(([type, value]) => {
+        if (value > max) {
+          max = value;
+          top = type;
+        }
+      });
+      return top;
+    }
+
+    function updateProfileAndFavorites() {
+      if (!answersHistory.length && !moodLikes.length) {
+        profileTypeEl.textContent = "Commencez par le quiz ou les mood cards pour découvrir votre profil.";
+        profileTagEl.style.display = "none";
+        profileTextEl.textContent = "";
+        profileMixBar.innerHTML = "";
+        favListEl.innerHTML = "";
+        favListEl.appendChild(matchIntroEl);
+        return;
+      }
+
+      const topType = getTopType();
+      const cfg = profiles[topType];
+
+      profileTypeEl.textContent = cfg.label;
+      profileTagEl.style.display = "inline-block";
+      profileTagEl.textContent = cfg.tag;
+      profileTextEl.textContent = cfg.description;
+
+      // favoris
+      favListEl.innerHTML = "";
+      cfg.favorites.forEach(item => {
+        const div = document.createElement("div");
+        div.className = "fav-item";
+        div.innerHTML = `<div class="fav-title">${item.title}</div><div>${item.text}</div>`;
+        favListEl.appendChild(div);
+      });
+
+      // barre mix
+      profileMixBar.innerHTML = "";
+      const total = scores.detox + scores.romantic + scores.adventure + scores.comfort || 1;
+      const segments = [
+        { key: "detox", color: "#4f7c5b" },
+        { key: "romantic", color: "#c96a6a" },
+        { key: "adventure", color: "#4a6fae" },
+        { key: "comfort", color: "#c89b4a" }
+      ];
+      segments.forEach(seg => {
+        const width = (scores[seg.key] / total) * 100;
+        const bar = document.createElement("div");
+        bar.style.width = width + "%";
+        bar.style.background = seg.color;
+        profileMixBar.appendChild(bar);
+      });
+    }
+
+    // SETTINGS
     soundToggle.addEventListener("click", () => {
-      soundOn = !soundOn;
-      soundToggle.classList.toggle("active", soundOn);
+      soundToggle.classList.toggle("active");
     });
 
     restartBtn.addEventListener("click", () => {
       currentQuestion = 0;
       answersHistory = [];
-      swipeLikes = [];
+      moodLikes = [];
       scores = { detox: 0, romantic: 0, adventure: 0, comfort: 0 };
       renderQuestion();
-      renderSwipeCards();
+      renderMoodCards();
       updateProfileAndFavorites();
       showView("quiz");
     });
 
-    // ===== LANG SWITCH =====
+    // LANG switch – ici purement visuel (on ne traduit pas encore tous les textes)
     langButtons.forEach(btn => {
       btn.addEventListener("click", () => {
-        const lang = btn.dataset.lang;
-        if (lang === currentLang) return;
-
-        currentLang = lang;
         langButtons.forEach(b => b.classList.remove("active"));
         btn.classList.add("active");
-
-        buildQuestionsForLang(currentLang);
-        currentQuestion = 0;
-        answersHistory = [];
-        swipeLikes = [];
-        scores = { detox: 0, romantic: 0, adventure: 0, comfort: 0 };
-
-        applyUiTranslations();
-        renderQuestion();
-        renderSwipeCards();
-        updateProfileAndFavorites();
-        showView("quiz");
+        // tu pourras plus tard brancher une vraie traduction ici
       });
     });
 
-    // ===== INIT =====
-    buildQuestionsForLang(currentLang);
-    applyUiTranslations();
+    // INIT
     renderQuestion();
-    renderSwipeCards();
+    renderMoodCards();
     updateProfileAndFavorites();
+    showView("welcome");
   </script>
-
+</body>
+</html>
