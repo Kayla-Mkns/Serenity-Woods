@@ -2,469 +2,775 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Serenity Woods – Glamping Personality</title>
+  <title>Serenity Woods – Enter the Silence</title>
   <style>
-    :root {
-      --green: #1f4b2c;
-      --brown: #8a5a33;
-      --gold:  #c89b4a;
-      --cream: #f5f1e8;
-      --text:  #2b2b2b;
-    }
-    * { box-sizing: border-box; }
+:root {
+  --green: #1f4b2c;
+  --brown: #8a5a33;
+  --gold:  #c89b4a;
+  --cream: #f5f1e8;
+  --text:  #2b2b2b;
+}
 
-    body {
-      margin: 0;
-      font-family: "Georgia", serif;
-      background: radial-gradient(circle at top, #fdf9f0 0, var(--cream) 45%, #ece1ce 100%);
-      color: var(--text);
-    }
+* { box-sizing: border-box; }
 
-    .app-shell {
-      width: 100%;
-      max-width: 1200px;
-      margin: 0 auto;
-      min-height: 100vh;
-      background: #fffdf8;
-      border-radius: 0;
-      box-shadow: none;
-      border: none;
-      display: flex;
-      flex-direction: column;
-    }
+body {
+  margin: 0;
+  font-family: "Georgia", serif;
+  background: radial-gradient(circle at top, #fdf9f0 0, var(--cream) 45%, #ece1ce 100%);
+  color: var(--text);
+}
 
-    /* HEADER */
-    .app-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 12px 6px;
-      background: linear-gradient(120deg, #fdf7eb, #f3e7d4);
-      border-bottom: 1px solid #e1d4c2;
-      gap: 6px;
-    }
-    .app-header-left {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .app-brand {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .app-brand img.logo {
-      width: 36px;
-      height: 36px;
-      border-radius: 50%;
-      border: 2px solid var(--green);
-      object-fit: cover;
-    }
-    .app-brand h1 {
-      margin: 0;
-      font-size: 1rem;
-      color: var(--green);
-    }
-    .tagline {
-      margin: 0;
-      font-size: 0.7rem;
-      color: #6a6359;
-      font-family: "Montserrat", system-ui, sans-serif;
-    }
-    .lang-switcher {
-      display: flex;
-      gap: 4px;
-      margin-left: 4px;
-    }
-    .lang-btn {
-      border: 1px solid #d1c4b3;
-      background: #fff8ee;
-      border-radius: 999px;
-      font-size: 0.65rem;
-      font-family: "Montserrat", system-ui, sans-serif;
-      padding: 2px 6px;
-      cursor: pointer;
-      color: #6a6359;
-    }
-    .lang-btn.active {
-      background: #1f4b2c;
-      color: #fff;
-      border-color: #1f4b2c;
-    }
-    .profile-icon {
-      border-radius: 999px;
-      border: 1px solid #d1c4b3;
-      background: #fff8ee;
-      width: 32px;
-      height: 32px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.05rem;
-    }
+/* SHELL GLOBAL */
+.app-shell {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: #fffdf8;
+  display: flex;
+  flex-direction: column;
+}
 
-    /* TABS */
-    .app-tabs {
-      display: flex;
-      border-top: 1px solid #e1d4c2;
-      background: #f7efe2;
-    }
-    .tab {
-      flex: 1;
-      padding: 8px 4px 6px;
-      border: none;
-      background: transparent;
-      cursor: pointer;
-      font-size: 0.7rem;
-      font-family: "Montserrat", system-ui, sans-serif;
-      color: #7a6e5e;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 2px;
-    }
-    .tab span.icon { font-size: 1rem; }
-    .tab.active {
-      color: var(--green);
-      font-weight: 600;
-      background: #fdf7ec;
-      box-shadow: 0 -2px 0 var(--green) inset;
-    }
+/* HEADER */
+.app-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 20px 8px;
+  background: linear-gradient(120deg, #fdf7eb, #f3e7d4);
+  border-bottom: 1px solid #e1d4c2;
+  gap: 8px;
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
 
-    /* VUES */
-    .views {
-      flex: 1;
-      padding: 14px 16px 6px;
-      overflow-y: auto;
-      background: radial-gradient(circle at top, #fefaf3, #f6eee1);
-    }
-    .view { display: none; }
-    .view.active { display: block; }
+.app-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
 
-    .card-shell {
-      background: #ffffffdf;
-      border-radius: 20px;
-      padding: 16px 14px 18px;
-      box-shadow: 0 10px 24px rgba(0,0,0,0.08);
-      border: 1px solid #e5d8c4;
-    }
-    .section-title {
-      font-size: 1rem;
-      color: var(--green);
-      margin: 0 0 4px;
-    }
-    .section-sub {
-      margin: 0 0 12px;
-      font-size: 0.8rem;
-      color: #6b645b;
-      font-family: "Montserrat", system-ui, sans-serif;
-    }
+.app-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
 
-    /* QUIZ */
-    .quiz-progress {
-      font-family: "Montserrat", system-ui, sans-serif;
-      font-size: 0.8rem;
-      margin-bottom: 8px;
-    }
-    .quiz-bar {
-      width: 100%;
-      height: 6px;
-      border-radius: 999px;
-      background: #e8ddcd;
-      overflow: hidden;
-      margin-top: 4px;
-    }
-    .quiz-fill {
-      width: 0%;
-      height: 100%;
-      background: linear-gradient(90deg, var(--brown), var(--gold));
-      transition: width 0.25s ease;
-    }
-    .quiz-question {
-      font-size: 0.95rem;
-      margin: 12px 0 10px;
-      color: #3c352d;
-    }
-    .quiz-answers {
-      display: flex;
-      flex-direction: column;
-      gap: 8px;
-    }
-    .answer-btn {
-      border-radius: 14px;
-      padding: 10px;
-      border: 1px solid #ddd0bf;
-      background: #faf5ec;
-      font-size: 0.82rem;
-      font-family: "Montserrat", system-ui, sans-serif;
-      text-align: left;
-      cursor: pointer;
-      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
-    }
-    .answer-btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 6px 14px rgba(0,0,0,0.1);
-      border-color: var(--gold);
-    }
-    .answer-btn.selected {
-      border-color: var(--green);
-      background: #f1f7f3;
-    }
-    .quiz-cta {
-      display: flex;
-      justify-content: flex-end;
-      margin-top: 10px;
-    }
-    .primary-btn {
-      border-radius: 999px;
-      border: none;
-      background: linear-gradient(120deg, var(--green), var(--brown));
-      color: #fff;
-      font-size: 0.8rem;
-      font-family: "Montserrat", system-ui, sans-serif;
-      padding: 8px 16px;
-      cursor: pointer;
-    }
-    .primary-btn:disabled {
-      opacity: 0.5;
-      cursor: default;
-    }
+.app-brand img.logo {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  border: 2px solid var(--green);
+  object-fit: cover;
+}
+.app-brand h1 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: var(--green);
+}
+.tagline {
+  margin: 0;
+  font-size: 0.7rem;
+  color: #6a6359;
+  font-family: "Montserrat", system-ui, sans-serif;
+}
 
-    /* PROFILE */
-    .profile-card { text-align: center; }
-    .profile-type {
-      font-size: 1.05rem;
-      color: var(--green);
-      margin-bottom: 4px;
-    }
-    .profile-tag {
-      display: inline-block;
-      padding: 3px 10px;
-      border-radius: 999px;
-      background: #f5ebdc;
-      border: 1px solid #e1d0b7;
-      font-size: 0.7rem;
-      font-family: "Montserrat", system-ui, sans-serif;
-      color: #7a5f3a;
-      margin-bottom: 8px;
-    }
-    .profile-text {
-      font-size: 0.8rem;
-      font-family: "Montserrat", system-ui, sans-serif;
-      color: #5d554c;
-      margin-bottom: 10px;
-    }
-    #profileMixBar {
-      margin-top: 8px;
-      display: flex;
-      gap: 0;
-      height: 6px;
-      border-radius: 999px;
-      overflow: hidden;
-      background: #eee0cf;
-    }
+/* NAV PRINCIPALE */
+.main-nav {
+  display: none;
+  gap: 12px;
+  margin-left: 12px;
+}
+.nav-link {
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-size: 0.78rem;
+  color: #7a6e5e;
+  text-decoration: none;
+  padding-bottom: 2px;
+}
+.nav-link:hover {
+  color: var(--green);
+  border-bottom: 1px solid var(--green);
+}
 
-    /* FAVORITES */
-    .fav-list {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      margin-top: 6px;
-      font-family: "Montserrat", system-ui, sans-serif;
-      font-size: 0.8rem;
-    }
-    .fav-item {
-      border-radius: 14px;
-      padding: 10px;
-      background: #faf4ea;
-      border: 1px solid #e3d3c0;
-    }
-    .fav-title {
-      font-weight: 600;
-      color: var(--green);
-      margin-bottom: 2px;
-    }
+.lang-switcher {
+  display: flex;
+  gap: 4px;
+  margin-left: 4px;
+}
+.lang-btn {
+  border: 1px solid #d1c4b3;
+  background: #fff8ee;
+  border-radius: 999px;
+  font-size: 0.65rem;
+  font-family: "Montserrat", system-ui, sans-serif;
+  padding: 2px 6px;
+  cursor: pointer;
+  color: #6a6359;
+}
+.lang-btn.active {
+  background: #1f4b2c;
+  color: #fff;
+  border-color: #1f4b2c;
+}
 
-    /* SETTINGS */
-    .setting-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 8px 0;
-      font-family: "Montserrat", system-ui, sans-serif;
-      font-size: 0.8rem;
-      border-bottom: 1px solid #eee0cf;
-    }
-    .toggle {
-      position: relative;
-      width: 38px;
-      height: 20px;
-      border-radius: 999px;
-      background: #d1c2af;
-      cursor: pointer;
-    }
-    .toggle::before {
-      content: "";
-      position: absolute;
-      top: 2px;
-      left: 2px;
-      width: 16px;
-      height: 16px;
-      border-radius: 50%;
-      background: #fff;
-      transition: transform 0.2s ease;
-    }
-    .toggle.active { background: #1f4b2c; }
-    .toggle.active::before { transform: translateX(18px); }
+.profile-icon {
+  border-radius: 999px;
+  border: 1px solid #d1c4b3;
+  background: #fff8ee;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 1.05rem;
+}
 
-    .secondary-btn {
-      border-radius: 999px;
-      border: 1px solid #d0c0aa;
-      background: #f8eee1;
-      font-size: 0.8rem;
-      font-family: "Montserrat", system-ui, sans-serif;
-      padding: 6px 12px;
-      cursor: pointer;
-      color: #5b4b3a;
-    }
+/* HERO */
+.hero {
+  padding: 24px 18px 10px;
+}
+.hero-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+.hero-text {
+  max-width: 540px;
+}
+.hero-kicker {
+  margin: 0 0 4px;
+  font-size: 0.78rem;
+  font-family: "Montserrat", system-ui, sans-serif;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: #8a5a33;
+}
+.hero-title {
+  margin: 0 0 6px;
+  font-size: 1.6rem;
+  color: #3c352d;
+}
+.hero-sub {
+  margin: 0 0 10px;
+  font-size: 0.9rem;
+  font-family: "Montserrat", system-ui, sans-serif;
+  color: #5b4b3a;
+}
+.hero-cta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 6px;
+}
+.hero-meta {
+  margin: 0;
+  font-size: 0.78rem;
+  font-family: "Montserrat", system-ui, sans-serif;
+  color: #7a6e5e;
+}
+.hero-visual {
+  max-width: 520px;
+}
+.hero-image {
+  width: 100%;
+  border-radius: 18px;
+  border: 1px solid #e3d3c0;
+  box-shadow: 0 16px 32px rgba(0,0,0,0.08);
+}
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+.hero-tag {
+  font-size: 0.72rem;
+  font-family: "Montserrat", system-ui, sans-serif;
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid #e3d3c0;
+  background: #faf4ea;
+  color: #6b645b;
+}
 
-    /* SWIPE */
-    .swipe-wrapper {
-      position: relative;
-      width: 100%;
-      height: 360px;
-      margin-top: 8px;
-      overflow: hidden;
-    }
-    .swipe-card {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 90%;
-      max-width: 340px;
-      height: 100%;
-      background: #fff;
-      border-radius: 18px;
-      box-shadow: 0 10px 22px rgba(0,0,0,0.12);
-      border: 1px solid #e3d3c0;
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      transition: transform 0.25s ease, opacity 0.25s ease;
-    }
-    .swipe-card img {
-      width: 100%;
-      height: 65%;
-      object-fit: cover;
-    }
-    .swipe-badge {
-      position: absolute;
-      top: 12px;
-      left: 12px;
-      padding: 4px 8px;
-      border-radius: 999px;
-      font-size: 0.7rem;
-      font-family: "Montserrat", system-ui, sans-serif;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      opacity: 0;
-      transition: opacity 0.15s ease;
-    }
-    .swipe-badge.like {
-      background: #e6f5ea;
-      color: #1f7a3b;
-    }
-    .swipe-badge.dislike {
-      background: #fbe4e0;
-      color: #b33939;
-    }
-    .swipe-card-body {
-      padding: 8px 10px 10px;
-      font-family: "Montserrat", system-ui, sans-serif;
-      font-size: 0.8rem;
-      color: #4c463f;
-    }
-    .swipe-label {
-      font-weight: 600;
-      color: var(--green);
-      margin-bottom: 2px;
-    }
-    .swipe-tag {
-      font-size: 0.7rem;
-      color: #8a5a33;
-      margin-bottom: 4px;
-    }
-    .swipe-cta-row {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin-top: 12px;
-    }
-    .swipe-btn {
-      width: 48px;
-      height: 48px;
-      border-radius: 50%;
-      border: none;
-      cursor: pointer;
-      font-size: 1.3rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 8px 18px rgba(0,0,0,0.15);
-    }
-    .swipe-btn.dislike {
-      background: #fbe4e0;
-      color: #b33939;
-    }
-    .swipe-btn.like {
-      background: #e6f5ea;
-      color: #1f7a3b;
-    }
-    .swipe-empty {
-      font-family: "Montserrat", system-ui, sans-serif;
-      font-size: 0.8rem;
-      color: #6b645b;
-      text-align: center;
-      margin-top: 40px;
-    }
+/* BOUTONS GÉNÉRAUX */
+.primary-btn {
+  border-radius: 999px;
+  border: none;
+  background: linear-gradient(120deg, var(--green), var(--brown));
+  color: #fff;
+  font-size: 0.8rem;
+  font-family: "Montserrat", system-ui, sans-serif;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+.primary-btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+.secondary-btn {
+  border-radius: 999px;
+  border: 1px solid #d0c0aa;
+  background: #f8eee1;
+  font-size: 0.8rem;
+  font-family: "Montserrat", system-ui, sans-serif;
+  padding: 6px 12px;
+  cursor: pointer;
+  color: #5b4b3a;
+}
 
-    @media (max-width: 480px) {
-      .app-shell { max-width: 100%; height: 100vh; border-radius: 0; }
-    }
-    @media (min-width: 768px) {
-      .views { padding: 32px 40px 16px; }
-      .card-shell { max-width: 700px; margin: 0 auto; }
-      .app-header { padding: 16px 40px 10px; }
-      .swipe-wrapper { height: 420px; }
-    }
-    @media (min-width: 1024px) {
-      .views {
-        display: flex;
-        justify-content: center;
-        align-items: flex-start;
-      }
-      .view.active {
-        flex: 1;
-        max-width: 700px;
-      }
-    }
-  </style>
+/* VUES APP */
+.views {
+  flex: 1;
+  padding: 14px 16px 6px;
+  overflow-y: auto;
+  background: radial-gradient(circle at top, #fefaf3, #f6eee1);
+}
+.view { display: none; }
+.view.active { display: block; }
+
+.card-shell {
+  background: #ffffffdf;
+  border-radius: 20px;
+  padding: 16px 14px 18px;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.08);
+  border: 1px solid #e5d8c4;
+}
+.section-title {
+  font-size: 1rem;
+  color: var(--green);
+  margin: 0 0 4px;
+}
+.section-sub {
+  margin: 0 0 12px;
+  font-size: 0.8rem;
+  color: #6b645b;
+  font-family: "Montserrat", system-ui, sans-serif;
+}
+
+/* QUIZ */
+.quiz-progress {
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-size: 0.8rem;
+  margin-bottom: 8px;
+}
+.quiz-bar {
+  width: 100%;
+  height: 6px;
+  border-radius: 999px;
+  background: #e8ddcd;
+  overflow: hidden;
+  margin-top: 4px;
+}
+.quiz-fill {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--brown), var(--gold));
+  transition: width 0.25s ease;
+}
+.quiz-question {
+  font-size: 0.95rem;
+  margin: 12px 0 10px;
+  color: #3c352d;
+}
+.quiz-answers {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+.answer-btn {
+  border-radius: 14px;
+  padding: 10px;
+  border: 1px solid #ddd0bf;
+  background: #faf5ec;
+  font-size: 0.82rem;
+  font-family: "Montserrat", system-ui, sans-serif;
+  text-align: left;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+}
+.answer-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(0,0,0,0.1);
+  border-color: var(--gold);
+}
+.answer-btn.selected {
+  border-color: var(--green);
+  background: #f1f7f3;
+}
+.quiz-cta {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 10px;
+}
+
+/* PROFILE */
+.profile-card { text-align: center; }
+.profile-type {
+  font-size: 1.05rem;
+  color: var(--green);
+  margin-bottom: 4px;
+}
+.profile-tag {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: #f5ebdc;
+  border: 1px solid #e1d0b7;
+  font-size: 0.7rem;
+  font-family: "Montserrat", system-ui, sans-serif;
+  color: #7a5f3a;
+  margin-bottom: 8px;
+}
+.profile-text {
+  font-size: 0.8rem;
+  font-family: "Montserrat", system-ui, sans-serif;
+  color: #5d554c;
+  margin-bottom: 10px;
+}
+#profileMixBar {
+  margin-top: 8px;
+  display: flex;
+  gap: 0;
+  height: 6px;
+  border-radius: 999px;
+  overflow: hidden;
+  background: #eee0cf;
+}
+
+/* MINI TYPES */
+.profile-types-row {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+.profile-mini {
+  border-radius: 999px;
+  border: 1px solid #e3d3c0;
+  background: #faf4ea;
+  padding: 4px 10px;
+  cursor: pointer;
+}
+.profile-mini:hover {
+  border-color: var(--green);
+}
+.mini-label {
+  font-size: 0.72rem;
+  font-family: "Montserrat", system-ui, sans-serif;
+  color: #6b645b;
+}
+
+/* FAVORITES */
+.fav-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 6px;
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-size: 0.8rem;
+}
+.fav-item {
+  border-radius: 14px;
+  padding: 10px;
+  background: #faf4ea;
+  border: 1px solid #e3d3c0;
+}
+.fav-title {
+  font-weight: 600;
+  color: var(--green);
+  margin-bottom: 2px;
+}
+
+/* SETTINGS */
+.setting-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-size: 0.8rem;
+  border-bottom: 1px solid #eee0cf;
+}
+.toggle {
+  position: relative;
+  width: 38px;
+  height: 20px;
+  border-radius: 999px;
+  background: #d1c2af;
+  cursor: pointer;
+}
+.toggle::before {
+  content: "";
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #fff;
+  transition: transform 0.2s ease;
+}
+.toggle.active { background: #1f4b2c; }
+.toggle.active::before { transform: translateX(18px); }
+
+/* SWIPE CARDS */
+.swipe-wrapper {
+  position: relative;
+  width: 100%;
+  height: 360px;
+  margin-top: 8px;
+  overflow: hidden;
+}
+.swipe-card {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90%;
+  max-width: 340px;
+  height: 100%;
+  background: #fff;
+  border-radius: 18px;
+  box-shadow: 0 10px 22px rgba(0,0,0,0.12);
+  border: 1px solid #e3d3c0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.25s ease, opacity 0.25s ease;
+}
+.swipe-card img {
+  width: 100%;
+  height: 65%;
+  object-fit: cover;
+}
+.swipe-badge {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  opacity: 0;
+  transition: opacity 0.15s ease;
+}
+.swipe-badge.like {
+  background: #e6f5ea;
+  color: #1f7a3b;
+}
+.swipe-badge.dislike {
+  background: #fbe4e0;
+  color: #b33939;
+}
+.swipe-card-body {
+  padding: 8px 10px 10px;
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-size: 0.8rem;
+  color: #4c463f;
+}
+.swipe-label {
+  font-weight: 600;
+  color: var(--green);
+  margin-bottom: 2px;
+}
+.swipe-tag {
+  font-size: 0.7rem;
+  color: #8a5a33;
+  margin-bottom: 4px;
+}
+.swipe-cta-row {
+  display: flex;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 12px;
+}
+.swipe-btn {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.15);
+}
+.swipe-btn.dislike {
+  background: #fbe4e0;
+  color: #b33939;
+}
+.swipe-btn.like {
+  background: #e6f5ea;
+  color: #1f7a3b;
+}
+.swipe-empty {
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-size: 0.8rem;
+  color: #6b645b;
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* TABS APP (MOBILE) */
+.app-tabs {
+  display: flex;
+  border-top: 1px solid #e1d4c2;
+  background: #f7efe2;
+}
+.tab {
+  flex: 1;
+  padding: 8px 4px 6px;
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-family: "Montserrat", system-ui, sans-serif;
+  color: #7a6e5e;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.tab span.icon { font-size: 1rem; }
+.tab.active {
+  color: var(--green);
+  font-weight: 600;
+  background: #fdf7ec;
+  box-shadow: 0 -2px 0 var(--green) inset;
+}
+
+/* PAGES LODGES & INFO */
+.page-section {
+  padding: 32px 16px 40px;
+  background: #fefaf3;
+}
+.page-alt {
+  background: #f6eee1;
+}
+.page-inner {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.page-title {
+  margin: 0 0 4px;
+  font-size: 1.2rem;
+  color: var(--green);
+}
+.page-sub {
+  margin: 0 0 16px;
+  font-size: 0.85rem;
+  font-family: "Montserrat", system-ui, sans-serif;
+  color: #6b645b;
+}
+
+/* LODGES */
+.lodge-filters {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+.lodge-filters .secondary-btn.active {
+  background: #1f4b2c;
+  color: #fff;
+  border-color: #1f4b2c;
+}
+.lodges-list {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.lodge-card {
+  display: grid;
+  grid-template-columns: minmax(0, 220px) 1fr;
+  gap: 12px;
+  align-items: stretch;
+  border-radius: 16px;
+  border: 1px solid #e3d3c0;
+  background: #fffaf4;
+  padding: 10px;
+}
+.lodge-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 14px;
+}
+.lodge-badge {
+  font-size: 0.75rem;
+  font-family: "Montserrat", system-ui, sans-serif;
+  color: #8a5a33;
+  margin-bottom: 2px;
+}
+.lodge-name {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+  color: #1f4b2c;
+}
+.lodge-desc {
+  margin: 0 0 6px;
+  font-size: 0.8rem;
+  color: #5d554c;
+  font-family: "Montserrat", system-ui, sans-serif;
+}
+.lodge-features {
+  margin: 0 0 6px;
+  padding-left: 16px;
+  font-size: 0.78rem;
+  color: #5d554c;
+  font-family: "Montserrat", system-ui, sans-serif;
+}
+.lodge-bottom {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 4px;
+}
+.lodge-price {
+  font-weight: 600;
+  color: #8a5a33;
+  font-size: 0.82rem;
+}
+
+/* INFO GRID */
+.info-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+  margin-top: 10px;
+}
+.info-card {
+  border-radius: 16px;
+  border: 1px solid #e3d3c0;
+  background: #fffdf7;
+  padding: 10px 12px;
+}
+.info-card h3 {
+  margin: 0 0 4px;
+  font-size: 0.95rem;
+  color: #1f4b2c;
+}
+.info-card p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: #5d554c;
+  font-family: "Montserrat", system-ui, sans-serif;
+}
+
+/* FOOTER */
+.site-footer {
+  padding: 14px 16px 16px;
+  background: #f3e7d4;
+  border-top: 1px solid #e1d4c2;
+}
+.footer-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-family: "Montserrat", system-ui, sans-serif;
+  font-size: 0.75rem;
+  color: #6b645b;
+}
+.footer-brand {
+  font-weight: 600;
+}
+.footer-links {
+  display: flex;
+  gap: 10px;
+}
+.footer-links a {
+  color: #7a6e5e;
+  text-decoration: none;
+}
+.footer-links a:hover {
+  color: var(--green);
+}
+
+/* RESPONSIVE */
+@media (min-width: 768px) {
+  .hero {
+    padding: 28px 32px 12px;
+  }
+  .hero-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .views {
+    padding: 24px 32px 10px;
+  }
+  .card-shell {
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  .app-header {
+    padding: 12px 32px 8px;
+  }
+  .main-nav {
+    display: flex;
+  }
+  .footer-inner {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .info-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .views {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+  }
+  .view.active {
+    flex: 1;
+    max-width: 720px;
+  }
+  .hero {
+    padding: 32px 40px 14px;
+  }
+  .app-header {
+    padding: 12px 40px 8px;
+  }
+  .lodge-card {
+    grid-template-columns: minmax(0, 260px) 1fr;
+  }
+}
+</style>
+
 </head>
 <body>
   <div class="app-shell">
-    <!-- HEADER -->
+    <!-- HEADER GLOBAL -->
     <header class="app-header">
       <div class="app-header-left">
         <div class="app-brand">
-          <!-- Logo : mets ton fichier dans /images et change le nom si besoin -->
           <img src="Logo SW.png" alt="Serenity Woods logo" class="logo">
           <div>
             <h1>Serenity Woods</h1>
             <p class="tagline" id="taglineText">What’s your glamping personality?</p>
           </div>
         </div>
+        <nav class="main-nav">
+          <a href="#top" class="nav-link" data-nav="experience">Experience</a>
+          <a href="#lodgesPage" class="nav-link" data-nav="lodges">Lodges</a>
+          <a href="#infoPage" class="nav-link" data-nav="info">Practical info</a>
+        </nav>
         <div class="lang-switcher">
           <button class="lang-btn active" data-lang="fr">FR</button>
           <button class="lang-btn" data-lang="en">EN</button>
@@ -474,8 +780,41 @@
       <button class="profile-icon" data-view="profile">👤</button>
     </header>
 
-    <!-- VUES -->
-    <div class="views">
+    <!-- BANDEAU HERO -->
+    <section id="top" class="hero">
+      <div class="hero-inner">
+        <div class="hero-text">
+          <p class="hero-kicker" id="heroKicker">Pairi Daiza Glamping Resort</p>
+          <h2 class="hero-title" id="heroTitle">Find your calm in the wild</h2>
+          <p class="hero-sub" id="heroSub">
+            Discover how you like to Enter the Silence, from Quiet Seeker to Wild Explorer.
+          </p>
+          <div class="hero-cta-row">
+            <button id="heroQuizBtn" class="primary-btn">
+              Start the personality quiz
+            </button>
+            <button id="heroLodgesBtn" class="secondary-btn">
+              Discover the lodges
+            </button>
+          </div>
+          <p class="hero-meta" id="heroMeta">
+            4 glamping personalities · Limited lodges · Opening 2026
+          </p>
+        </div>
+        <div class="hero-visual">
+          <img src="images/hero-4types.jpg" alt="4 ways to Enter the Silence" class="hero-image">
+          <div class="hero-tags">
+            <span class="hero-tag">Quiet Seeker</span>
+            <span class="hero-tag">Romantic Drifter</span>
+            <span class="hero-tag">Wild Explorer</span>
+            <span class="hero-tag">Cozy Gatherer</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ZONE APP (QUIZ / MOOD / PROFIL / MATCH / SETTINGS) -->
+    <main class="views">
       <!-- WELCOME -->
       <section class="view active" id="view-welcome">
         <div class="card-shell" style="text-align:center;">
@@ -514,7 +853,7 @@
         </div>
       </section>
 
-      <!-- MOOD CARDS -->
+      <!-- GLAMPING MOOD CARDS -->
       <section class="view" id="view-swipe">
         <div class="card-shell">
           <h2 class="section-title" id="swipeTitle">Glamping Mood Cards</h2>
@@ -533,7 +872,7 @@
         </div>
       </section>
 
-      <!-- PROFILE -->
+      <!-- PROFILE / RESULT -->
       <section class="view" id="view-profile">
         <div class="card-shell profile-card">
           <h2 class="section-title" id="profileTitle">Votre glamping personality</h2>
@@ -544,11 +883,31 @@
           </div>
           <div id="profileTag" class="profile-tag" style="display:none;"></div>
           <p id="profileText" class="profile-text"></p>
+
           <div id="profileMixBar"></div>
+
+          <div class="profile-types-row" id="profileTypesRow">
+            <div class="profile-mini" data-gtype="quiet">
+              <span class="mini-label">Quiet Seeker</span>
+            </div>
+            <div class="profile-mini" data-gtype="romantic">
+              <span class="mini-label">Romantic Drifter</span>
+            </div>
+            <div class="profile-mini" data-gtype="wild">
+              <span class="mini-label">Wild Explorer</span>
+            </div>
+            <div class="profile-mini" data-gtype="cozy">
+              <span class="mini-label">Cozy Gatherer</span>
+            </div>
+          </div>
+
+          <button id="seeLodgesBtn" class="primary-btn" style="margin-top:14px;">
+            Voir les lodges pour ce profil
+          </button>
         </div>
       </section>
 
-      <!-- FAVORITES -->
+      <!-- FAVORITES / MATCH -->
       <section class="view" id="view-favorites">
         <div class="card-shell">
           <h2 class="section-title" id="matchTitle">Your Serenity Woods match</h2>
@@ -572,15 +931,20 @@
             <div id="soundToggle" class="toggle"></div>
           </div>
 
+          <div class="setting-row">
+            <span id="settingsAnimationsLabel">Animations visuelles</span>
+            <div id="animToggle" class="toggle active"></div>
+          </div>
+
           <div class="setting-row" style="border-bottom:none;">
             <span id="settingsReplayLabel">Rejouer le quiz</span>
             <button id="restartBtn" class="secondary-btn">Reset quiz</button>
           </div>
         </div>
       </section>
-    </div>
+    </main>
 
-    <!-- TABS -->
+    <!-- TABS MOBILES POUR LA ZONE APP -->
     <nav class="app-tabs">
       <button class="tab" data-view="welcome">
         <span class="icon">🌙</span>
@@ -603,290 +967,479 @@
         <span class="tab-label" id="tabSettingsLabel">Settings</span>
       </button>
     </nav>
+
+    <!-- PAGE LODGES (SIMULATION RÉSERVATION) -->
+    <section id="lodgesPage" class="page-section">
+      <div class="page-inner">
+        <h2 class="page-title" id="lodgesTitle">Choose your lodge</h2>
+        <p class="page-sub" id="lodgesSubtitle">
+          Find the lodge that best matches your glamping personality.
+        </p>
+
+        <div class="lodge-filters">
+          <button class="secondary-btn lodge-filter active" data-type="all">All</button>
+          <button class="secondary-btn lodge-filter" data-type="quiet">Quiet Seeker</button>
+          <button class="secondary-btn lodge-filter" data-type="romantic">Romantic Drifter</button>
+          <button class="secondary-btn lodge-filter" data-type="wild">Wild Explorer</button>
+          <button class="secondary-btn lodge-filter" data-type="cozy">Cozy Gatherer</button>
+        </div>
+
+        <div id="lodgesList" class="lodges-list"></div>
+      </div>
+    </section>
+
+    <!-- PAGE INFO PRATIQUE -->
+    <section id="infoPage" class="page-section page-alt">
+      <div class="page-inner">
+        <h2 class="page-title" id="infoTitle">Practical information</h2>
+        <p class="page-sub" id="infoSubtitle">
+          Everything you need to know before booking your stay at Serenity Woods.
+        </p>
+
+        <div class="info-grid">
+          <article class="info-card">
+            <h3 id="infoAccessTitle">Access & location</h3>
+            <p id="infoAccessText">
+              Serenity Woods is located just outside Pairi Daiza, with dedicated parking and a private path leading directly to the glamping resort.
+            </p>
+          </article>
+
+          <article class="info-card">
+            <h3 id="infoStayTitle">Stay & check‑in</h3>
+            <p id="infoStayText">
+              Check‑in is from 16:00 and check‑out at 11:00. Each lodge includes breakfast, bed linen, and access to selected nature activities.
+            </p>
+          </article>
+
+          <article class="info-card">
+            <h3 id="infoSustainTitle">Sustainability</h3>
+            <p id="infoSustainText">
+              The resort is powered by green energy, uses low‑impact materials and supports Pairi Daiza’s biodiversity and animal welfare programs.
+            </p>
+          </article>
+
+          <article class="info-card">
+            <h3 id="infoContactTitle">Contact & booking</h3>
+            <p id="infoContactText">
+              For special requests, group stays or gift vouchers, please contact our Serenity Woods concierge team via email or phone.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PIED DE PAGE -->
+    <footer class="site-footer">
+      <div class="footer-inner">
+        <div class="footer-left">
+          <span class="footer-brand">Serenity Woods · Pairi Daiza Glamping</span>
+          <span class="footer-copy">© 2025 Serenity Woods. All rights reserved.</span>
+        </div>
+        <div class="footer-links">
+          <a href="#top">Back to top</a>
+          <a href="#infoPage">FAQ</a>
+          <a href="#lodgesPage">Lodges</a>
+        </div>
+      </div>
+    </footer>
   </div>
+<audio id="natureAudio" loop>
+  <source src="sons/nature-forest.mp3" type="audio/mpeg">
+</audio>
 
-  <script>
-    /* TEXTES PAR LANGUE */
-    const translations = {
-      fr: {
-        taglineText: "What’s your glamping personality ?",
-        welcomeTitle: "Enter the Silence",
-        welcomeSubtitle: "Prenez une respiration, laissez le bruit à la porte.\nPuis découvrez votre glamping personality.",
-        enterBtn: "Entrer dans le silence",
-        quizTitle: "Glamping Personality Quiz",
-        quizSubtitle: "Répondez à 10 questions et découvrez votre expérience idéale à Serenity Woods.",
-        nextBtn: "Suivant →",
-        swipeTitle: "Glamping Mood Cards",
-        swipeSubtitle: "Swipez à droite si vous aimez, à gauche si ce n’est pas pour vous. Vos likes complètent votre glamping personality.",
-        swipeEmptyStart: "Commencez à swiper pour voir vos préférences.",
-        swipeEmptyEnd: "Vous avez vu toutes les cartes. Consultez votre profil.",
-        profileTitle: "Votre glamping personality",
-        profileSubtitle: "Basée sur vos réponses au quiz et vos mood cards.",
-        profileIntro: "Commencez par le quiz ou les mood cards pour découvrir votre profil.",
-        matchTitle: "Your Serenity Woods match",
-        matchSubtitle: "Des expériences recommandées selon votre glamping personality.",
-        matchIntro: "Répondez au quiz ou utilisez les Glamping Mood Cards pour voir les expériences qui correspondent à votre couple.",
-        settingsTitle: "Settings",
-        settingsSubtitle: "Options simples pour votre expérience.",
-        settingsSoundLabel: "Sons du quiz",
-        settingsReplayLabel: "Rejouer le quiz",
-        restartBtn: "Reset quiz",
-        tabWelcomeLabel: "Intro",
-        tabQuizLabel: "Quiz",
-        tabSwipeLabel: "Mood",
-        tabMatchLabel: "Match",
-        tabSettingsLabel: "Settings",
-        questionLabel: i => `Question ${i} / 10`
-      },
-      en: {
-        taglineText: "What’s your glamping personality?",
-        welcomeTitle: "Enter the Silence",
-        welcomeSubtitle: "Take a breath, leave the noise at the gate.\nThen discover your glamping personality.",
-        enterBtn: "Enter the silence",
-        quizTitle: "Glamping Personality Quiz",
-        quizSubtitle: "Answer 10 questions to discover your ideal Serenity Woods experience.",
-        nextBtn: "Next →",
-        swipeTitle: "Glamping Mood Cards",
-        swipeSubtitle: "Swipe right if you like it, left if it is not for you. Your likes complete your glamping personality.",
-        swipeEmptyStart: "Start swiping to see your preferences.",
-        swipeEmptyEnd: "You have seen all the cards. Check your profile.",
-        profileTitle: "Your glamping personality",
-        profileSubtitle: "Based on your quiz answers and mood cards.",
-        profileIntro: "Start with the quiz or mood cards to discover your profile.",
-        matchTitle: "Your Serenity Woods match",
-        matchSubtitle: "Experiences recommended for your glamping personality.",
-        matchIntro: "Answer the quiz or use the Glamping Mood Cards to see the experiences that match your couple.",
-        settingsTitle: "Settings",
-        settingsSubtitle: "Simple options for your experience.",
-        settingsSoundLabel: "Quiz sounds",
-        settingsReplayLabel: "Replay quiz",
-        restartBtn: "Reset quiz",
-        tabWelcomeLabel: "Intro",
-        tabQuizLabel: "Quiz",
-        tabSwipeLabel: "Mood",
-        tabMatchLabel: "Match",
-        tabSettingsLabel: "Settings",
-        questionLabel: i => `Question ${i} / 10`
-      },
-      nl: {
-        taglineText: "Wat is jouw glamping personality?",
-        welcomeTitle: "Stap de stilte in",
-        welcomeSubtitle: "Adem diep in en laat de drukte achter je.\nOntdek daarna jouw glamping personality.",
-        enterBtn: "Ga de stilte in",
-        quizTitle: "Glamping Personality Quiz",
-        quizSubtitle: "Beantwoord 10 vragen en ontdek jouw ideale ervaring bij Serenity Woods.",
-        nextBtn: "Volgende →",
-        swipeTitle: "Glamping Mood Cards",
-        swipeSubtitle: "Swipe naar rechts als je het leuk vindt, naar links als het niets voor jou is.",
-        swipeEmptyStart: "Begin met swipen om je voorkeuren te zien.",
-        swipeEmptyEnd: "Je hebt alle kaarten gezien. Bekijk je profiel.",
-        profileTitle: "Jouw glamping personality",
-        profileSubtitle: "Gebaseerd op je quizantwoorden en mood cards.",
-        profileIntro: "Begin met de quiz of de mood cards om je profiel te ontdekken.",
-        matchTitle: "Jouw Serenity Woods match",
-        matchSubtitle: "Aanbevolen ervaringen volgens jouw glamping personality.",
-        matchIntro: "Beantwoord de quiz of gebruik de Glamping Mood Cards om passende ervaringen te zien.",
-        settingsTitle: "Instellingen",
-        settingsSubtitle: "Eenvoudige opties voor je ervaring.",
-        settingsSoundLabel: "Quizgeluiden",
-        settingsReplayLabel: "Quiz herstarten",
-        restartBtn: "Quiz resetten",
-        tabWelcomeLabel: "Intro",
-        tabQuizLabel: "Quiz",
-        tabSwipeLabel: "Mood",
-        tabMatchLabel: "Match",
-        tabSettingsLabel: "Instellingen",
-        questionLabel: i => `Vraag ${i} / 10`
-      }
-    };
+<script>
+/* === TEXTES PAR LANGUE === */
+const translations = {
+  fr: {
+    taglineText: "What’s your glamping personality?",
+    heroKicker: "Pairi Daiza Glamping Resort",
+    heroTitle: "Trouvez votre calme en pleine nature",
+    heroSub: "Découvrez comment vous aimez Enter the Silence, de Quiet Seeker à Wild Explorer.",
+    heroQuizBtn: "Lancer le quiz de personnalité",
+    heroLodgesBtn: "Découvrir les lodges",
+    heroMeta: "4 glamping personalities · Lodges en nombre limité · Ouverture 2026",
 
-    /* QUESTIONS PAR LANGUE */
-    const questionsByLang = {
-      fr: [
-        {
-          text: "Quand vous pensez à un week-end idéal, vous imaginez plutôt :",
-          answers: [
-            { text: "Une cabane isolée, sans voisins, juste les arbres", type: "detox" },
-            { text: "Un lodge avec bain chaud et dîner aux chandelles", type: "romantic" },
-            { text: "Des activités en pleine nature, chemins, vélo, kayak", type: "adventure" },
-            { text: "Un hébergement confortable, proche de quelques services", type: "comfort" }
-          ]
-        },
-        {
-          text: "Le matin, votre mood :",
-          answers: [
-            { text: "Réveil naturel, aucun réveil, juste le silence", type: "detox" },
-            { text: "Petit-déjeuner au lit avec vue, ambiance cosy", type: "romantic" },
-            { text: "Lever tôt pour profiter au maximum des activités", type: "adventure" },
-            { text: "Grasse matinée puis balade tranquille dans les bois", type: "comfort" }
-          ]
-        },
-        {
-          text: "Votre rapport au téléphone en week-end :",
-          answers: [
-            { text: "Mode avion quasi tout le week-end", type: "detox" },
-            { text: "Quelques photos à deux, puis téléphone rangé", type: "romantic" },
-            { text: "Photos, vidéos et carte pour explorer les environs", type: "adventure" },
-            { text: "Je le garde pour le confort (infos pratiques, musique)", type: "comfort" }
-          ]
-        },
-        {
-          text: "Le soir, votre moment préféré :",
-          answers: [
-            { text: "Lecture près du feu, sans bruit extérieur", type: "detox" },
-            { text: "Dîner aux chandelles, ambiance intimiste", type: "romantic" },
-            { text: "Dernière balade, feu de camp, regarder les étoiles", type: "adventure" },
-            { text: "Film, plaid, snacks gourmands dans un lodge douillet", type: "comfort" }
-          ]
-        },
-        {
-          text: "Niveau activités, vous êtes plutôt :",
-          answers: [
-            { text: "Slow, yoga, respiration, marche lente en forêt", type: "detox" },
-            { text: "Moments à deux, spa, massages, temps de qualité", type: "romantic" },
-            { text: "Randonnées, points de vue, sensation d’exploration", type: "adventure" },
-            { text: "Un mélange de petites activités et beaucoup de chill", type: "comfort" }
-          ]
-        },
-        {
-          text: "Votre hébergement idéal à Serenity Woods :",
-          answers: [
-            { text: "Cabane minimaliste, loin de tout, pas de vis-à-vis", type: "detox" },
-            { text: "Lodge romantique avec bain nordique ou jacuzzi privé", type: "romantic" },
-            { text: "Cabane perchée ou spot avec accès direct aux sentiers", type: "adventure" },
-            { text: "Tiny house confortable avec belle literie et vue", type: "comfort" }
-          ]
-        },
-        {
-          text: "Quand vous pensez au mot « luxe », vous voyez :",
-          answers: [
-            { text: "Le temps, le calme, aucun planning", type: "detox" },
-            { text: "Des attentions, des détails, une ambiance pensée pour le couple", type: "romantic" },
-            { text: "La liberté d’explorer, de tester, de bouger", type: "adventure" },
-            { text: "Le confort, la chaleur, la sensation de cocon", type: "comfort" }
-          ]
-        },
-        {
-          text: "Votre activité signature à Serenity Woods serait :",
-          answers: [
-            { text: "Déconnexion totale : respiration, journal, sieste en hamac", type: "detox" },
-            { text: "Bain chaud extérieur au coucher du soleil, à deux", type: "romantic" },
-            { text: "Boucle de randonnée avec spots panoramiques", type: "adventure" },
-            { text: "Brunch tardif, promenade, jeux de société dans la cabane", type: "comfort" }
-          ]
-        },
-        {
-          text: "En couple, vous cherchez surtout :",
-          answers: [
-            { text: "Un endroit pour vraiment se recentrer ensemble", type: "detox" },
-            { text: "Des moments intenses, complices, en mode parenthèse à deux", type: "romantic" },
-            { text: "Des souvenirs d’aventure à raconter ensuite", type: "adventure" },
-            { text: "Un espace sécurisant où on se sent bien tous les deux", type: "comfort" }
-          ]
-        },
-        {
-          text: "Si vous deviez décrire votre vibe en un mot :",
-          answers: [
-            { text: "Slow & minimaliste", type: "detox" },
-            { text: "Intense & amoureux", type: "romantic" },
-            { text: "Curieux & dynamique", type: "adventure" },
-            { text: "Cosy & chill", type: "comfort" }
-          ]
-        }
-      ],
-      en: [
-        {
-          text: "When you think of an ideal weekend, you imagine:",
-          answers: [
-            { text: "A secluded cabin with no neighbours, only trees", type: "detox" },
-            { text: "A lodge with hot tub and candlelit dinner", type: "romantic" },
-            { text: "Outdoor activities: trails, biking, kayaking", type: "adventure" },
-            { text: "A comfortable place, close to a few services", type: "comfort" }
-          ]
-        },
-        {
-          text: "In the morning, your mood is:",
-          answers: [
-            { text: "Natural wake-up, no alarm, just silence", type: "detox" },
-            { text: "Breakfast in bed with a view, cosy atmosphere", type: "romantic" },
-            { text: "Up early to make the most of activities", type: "adventure" },
-            { text: "Sleep in, then a peaceful walk in the woods", type: "comfort" }
-          ]
-        },
-        {
-          text: "Your relationship with your phone on a weekend:",
-          answers: [
-            { text: "Airplane mode almost the whole weekend", type: "detox" },
-            { text: "A few couple photos, then phone away", type: "romantic" },
-            { text: "Photos, videos and maps to explore the area", type: "adventure" },
-            { text: "I keep it for comfort (practical info, music)", type: "comfort" }
-          ]
-        },
-        {
-          text: "In the evening, your favourite moment is:",
-          answers: [
-            { text: "Reading by the fire, no outside noise", type: "detox" },
-            { text: "Candlelit dinner, intimate atmosphere", type: "romantic" },
-            { text: "Last walk, campfire, watching the stars", type: "adventure" },
-            { text: "Movie, blanket, snacks in a cosy lodge", type: "comfort" }
-          ]
-        },
-        {
-          text: "For activities, you are more:",
-          answers: [
-            { text: "Slow: yoga, breathing, slow forest walks", type: "detox" },
-            { text: "Moments for two: spa, massages, quality time", type: "romantic" },
-            { text: "Hikes, viewpoints, a sense of exploration", type: "adventure" },
-            { text: "A mix of light activities and a lot of chill", type: "comfort" }
-          ]
-        },
-        {
-          text: "Your ideal accommodation at Serenity Woods:",
-          answers: [
-            { text: "Minimalist cabin, far from everything, no neighbours", type: "detox" },
-            { text: "Romantic lodge with hot tub or private jacuzzi", type: "romantic" },
-            { text: "Treehouse or spot with direct access to trails", type: "adventure" },
-            { text: "Comfortable tiny house with great bedding and a view", type: "comfort" }
-          ]
-        },
-        {
-          text: "When you think of the word “luxury”, you see:",
-          answers: [
-            { text: "Time, calm, no schedule", type: "detox" },
-            { text: "Thoughtful details and an atmosphere for couples", type: "romantic" },
-            { text: "Freedom to explore, try and move around", type: "adventure" },
-            { text: "Comfort, warmth, a cocoon feeling", type: "comfort" }
-          ]
-        },
-        {
-          text: "Your signature activity at Serenity Woods would be:",
-          answers: [
-            { text: "Total digital detox: breathing, journaling, hammock nap", type: "detox" },
-            { text: "Outdoor hot bath at sunset, together", type: "romantic" },
-            { text: "Panoramic hiking loop", type: "adventure" },
-            { text: "Late brunch, walk, board games in the cabin", type: "comfort" }
-          ]
-        },
-        {
-          text: "As a couple, you mainly look for:",
-          answers: [
-            { text: "A place to really recentre together", type: "detox" },
-            { text: "Intense, close moments, like a bubble for two", type: "romantic" },
-            { text: "Adventure memories to tell afterwards", type: "adventure" },
-            { text: "A safe space where you both feel good", type: "comfort" }
-          ]
-        },
-        {
-          text: "If you had to describe your vibe in one word:",
-          answers: [
-            { text: "Slow & minimalist", type: "detox" },
-            { text: "Intense & romantic", type: "romantic" },
-            { text: "Curious & dynamic", type: "adventure" },
-            { text: "Cosy & chill", type: "comfort" }
-          ]
-        }
-      ],
-      nl: [
+    welcomeTitle: "Enter the Silence",
+    welcomeSubtitle: "Prenez une respiration, laissez le bruit à la porte.\nPuis découvrez votre glamping personality.",
+    enterBtn: "Entrer dans le silence",
+
+    quizTitle: "Glamping Personality Quiz",
+    quizSubtitle: "Répondez à 10 questions et découvrez votre expérience idéale à Serenity Woods.",
+    nextBtn: "Suivant →",
+
+    swipeTitle: "Glamping Mood Cards",
+    swipeSubtitle: "Swipez à droite si vous aimez, à gauche si ce n’est pas pour vous. Vos likes complètent votre glamping personality.",
+    swipeEmptyStart: "Commencez à swiper pour voir vos préférences.",
+    swipeEmptyEnd: "Vous avez vu toutes les cartes. Consultez votre profil.",
+
+    profileTitle: "Votre glamping personality",
+    profileSubtitle: "Basée sur vos réponses au quiz et vos mood cards.",
+    profileIntro: "Commencez par le quiz ou les mood cards pour découvrir votre profil.",
+    seeLodgesBtn: "Voir les lodges pour ce profil",
+
+    matchTitle: "Your Serenity Woods match",
+    matchSubtitle: "Des expériences recommandées selon votre glamping personality.",
+    matchIntro: "Répondez au quiz ou utilisez les Glamping Mood Cards pour voir les expériences qui correspondent à votre couple.",
+
+    settingsTitle: "Settings",
+    settingsSubtitle: "Options simples pour votre expérience.",
+    settingsSoundLabel: "Sons du quiz",
+    settingsAnimationsLabel: "Animations visuelles",
+    settingsReplayLabel: "Rejouer le quiz",
+    restartBtn: "Reset quiz",
+
+    tabWelcomeLabel: "Intro",
+    tabQuizLabel: "Quiz",
+    tabSwipeLabel: "Mood",
+    tabMatchLabel: "Match",
+    tabSettingsLabel: "Settings",
+
+    lodgesTitle: "Choisissez votre lodge",
+    lodgesSubtitle: "Trouvez le lodge qui correspond le mieux à votre glamping personality.",
+    infoTitle: "Informations pratiques",
+    infoSubtitle: "Tout ce qu’il faut savoir avant de réserver votre séjour à Serenity Woods.",
+    infoAccessTitle: "Accès & localisation",
+    infoAccessText: "Serenity Woods se situe juste à l’extérieur de Pairi Daiza, avec un parking dédié et un chemin privé menant directement au glamping.",
+    infoStayTitle: "Séjour & check‑in",
+    infoStayText: "Check‑in à partir de 16h et check‑out à 11h. Chaque lodge comprend le petit‑déjeuner, le linge de lit et certaines activités nature.",
+    infoSustainTitle: "Durabilité",
+    infoSustainText: "Le resort fonctionne à l’énergie verte, utilise des matériaux à faible impact et soutient les programmes biodiversité et bien‑être animal de Pairi Daiza.",
+    infoContactTitle: "Contact & réservation",
+    infoContactText: "Pour toute demande spéciale, séjour en groupe ou bon cadeau, contactez notre équipe Serenity Woods par e‑mail ou téléphone.",
+
+    lodgeFilterAll: "Tous",
+    lodgeFilterQuiet: "Quiet Seeker",
+    lodgeFilterRomantic: "Romantic Drifter",
+    lodgeFilterWild: "Wild Explorer",
+    lodgeFilterCozy: "Cozy Gatherer",
+
+    fakeBookingMsg: (name) =>
+      `Vous allez réserver : ${name}\n\nCette fenêtre simule une vraie page de réservation (dates, nombre de nuits, etc.).`,
+    questionLabel: (i, total) => `Question ${i} / ${total}`
+  },
+  en: {
+    taglineText: "What’s your glamping personality?",
+    heroKicker: "Pairi Daiza Glamping Resort",
+    heroTitle: "Find your calm in the wild",
+    heroSub: "Discover how you like to Enter the Silence, from Quiet Seeker to Wild Explorer.",
+    heroQuizBtn: "Start the personality quiz",
+    heroLodgesBtn: "Discover the lodges",
+    heroMeta: "4 glamping personalities · Limited lodges · Opening 2026",
+
+    welcomeTitle: "Enter the Silence",
+    welcomeSubtitle: "Take a breath, leave the noise at the gate.\nThen discover your glamping personality.",
+    enterBtn: "Enter the silence",
+
+    quizTitle: "Glamping Personality Quiz",
+    quizSubtitle: "Answer 10 questions to discover your ideal Serenity Woods experience.",
+    nextBtn: "Next →",
+
+    swipeTitle: "Glamping Mood Cards",
+    swipeSubtitle: "Swipe right if you like it, left if it is not for you. Your likes complete your glamping personality.",
+    swipeEmptyStart: "Start swiping to see your preferences.",
+    swipeEmptyEnd: "You have seen all the cards. Check your profile.",
+
+    profileTitle: "Your glamping personality",
+    profileSubtitle: "Based on your quiz answers and mood cards.",
+    profileIntro: "Start with the quiz or mood cards to discover your profile.",
+    seeLodgesBtn: "See lodges for this profile",
+
+    matchTitle: "Your Serenity Woods match",
+    matchSubtitle: "Experiences recommended for your glamping personality.",
+    matchIntro: "Answer the quiz or use the Glamping Mood Cards to see the experiences that match your couple.",
+
+    settingsTitle: "Settings",
+    settingsSubtitle: "Simple options for your experience.",
+    settingsSoundLabel: "Quiz sounds",
+    settingsAnimationsLabel: "Visual animations",
+    settingsReplayLabel: "Replay quiz",
+    restartBtn: "Reset quiz",
+
+    tabWelcomeLabel: "Intro",
+    tabQuizLabel: "Quiz",
+    tabSwipeLabel: "Mood",
+    tabMatchLabel: "Match",
+    tabSettingsLabel: "Settings",
+
+    lodgesTitle: "Choose your lodge",
+    lodgesSubtitle: "Find the lodge that best matches your glamping personality.",
+    infoTitle: "Practical information",
+    infoSubtitle: "Everything you need to know before booking your stay at Serenity Woods.",
+    infoAccessTitle: "Access & location",
+    infoAccessText: "Serenity Woods is located just outside Pairi Daiza, with dedicated parking and a private path leading directly to the glamping resort.",
+    infoStayTitle: "Stay & check‑in",
+    infoStayText: "Check‑in from 4 pm and check‑out at 11 am. Each lodge includes breakfast, bed linen and selected nature activities.",
+    infoSustainTitle: "Sustainability",
+    infoSustainText: "The resort is powered by green energy, uses low‑impact materials and supports Pairi Daiza’s biodiversity and animal welfare programs.",
+    infoContactTitle: "Contact & booking",
+    infoContactText: "For special requests, group stays or gift vouchers, please contact our Serenity Woods concierge team via email or phone.",
+
+    lodgeFilterAll: "All",
+    lodgeFilterQuiet: "Quiet Seeker",
+    lodgeFilterRomantic: "Romantic Drifter",
+    lodgeFilterWild: "Wild Explorer",
+    lodgeFilterCozy: "Cozy Gatherer",
+
+    fakeBookingMsg: (name) =>
+      `You are about to book: ${name}\n\nThis window simulates a real booking page (dates, number of nights, etc.).`,
+    questionLabel: (i, total) => `Question ${i} / ${total}`
+  },
+  nl: {
+    taglineText: "Wat is jouw glamping personality?",
+    heroKicker: "Pairi Daiza Glamping Resort",
+    heroTitle: "Vind je rust in de natuur",
+    heroSub: "Ontdek hoe jij Enter the Silence beleeft, van Quiet Seeker tot Wild Explorer.",
+    heroQuizBtn: "Start de persoonlijkheidsquiz",
+    heroLodgesBtn: "Ontdek de lodges",
+    heroMeta: "4 glamping personalities · Beperkt aantal lodges · Opening 2026",
+
+    welcomeTitle: "Stap de stilte in",
+    welcomeSubtitle: "Adem diep in en laat de drukte achter je.\nOntdek daarna jouw glamping personality.",
+    enterBtn: "Ga de stilte in",
+
+    quizTitle: "Glamping Personality Quiz",
+    quizSubtitle: "Beantwoord 10 vragen en ontdek jouw ideale ervaring bij Serenity Woods.",
+    nextBtn: "Volgende →",
+
+    swipeTitle: "Glamping Mood Cards",
+    swipeSubtitle: "Swipe naar rechts als je het leuk vindt, naar links als het niets voor jou is. Je likes maken je glamping personality compleet.",
+    swipeEmptyStart: "Begin met swipen om je voorkeuren te zien.",
+    swipeEmptyEnd: "Je hebt alle kaarten gezien. Bekijk je profiel.",
+
+    profileTitle: "Jouw glamping personality",
+    profileSubtitle: "Gebaseerd op je quizantwoorden en mood cards.",
+    profileIntro: "Begin met de quiz of de mood cards om je profiel te ontdekken.",
+    seeLodgesBtn: "Bekijk de lodges voor dit profiel",
+
+    matchTitle: "Jouw Serenity Woods match",
+    matchSubtitle: "Aanbevolen ervaringen volgens jouw glamping personality.",
+    matchIntro: "Beantwoord de quiz of gebruik de Glamping Mood Cards om passende ervaringen te zien.",
+
+    settingsTitle: "Instellingen",
+    settingsSubtitle: "Eenvoudige opties voor je ervaring.",
+    settingsSoundLabel: "Quizgeluiden",
+    settingsAnimationsLabel: "Visuele animaties",
+    settingsReplayLabel: "Quiz opnieuw spelen",
+    restartBtn: "Quiz resetten",
+
+    tabWelcomeLabel: "Intro",
+    tabQuizLabel: "Quiz",
+    tabSwipeLabel: "Mood",
+    tabMatchLabel: "Match",
+    tabSettingsLabel: "Instellingen",
+
+    lodgesTitle: "Kies je lodge",
+    lodgesSubtitle: "Vind de lodge die het beste bij jouw glamping personality past.",
+    infoTitle: "Praktische info",
+    infoSubtitle: "Alles wat je moet weten voordat je boekt bij Serenity Woods.",
+    infoAccessTitle: "Toegang & locatie",
+    infoAccessText: "Serenity Woods ligt vlak naast Pairi Daiza, met een eigen parking en een privépaden rechtstreeks naar het glamping resort.",
+    infoStayTitle: "Verblijf & check‑in",
+    infoStayText: "Check‑in vanaf 16:00 en check‑out om 11:00. Elke lodge is inclusief ontbijt, bedlinnen en geselecteerde natuuractiviteiten.",
+    infoSustainTitle: "Duurzaamheid",
+    infoSustainText: "Het resort gebruikt groene energie, duurzame materialen en ondersteunt de biodiversiteits‑ en dierenwelzijnsprogramma’s van Pairi Daiza.",
+    infoContactTitle: "Contact & boeken",
+    infoContactText: "Voor speciale aanvragen, groepsverblijven of cadeaubonnen kan je terecht bij het Serenity Woods‑team via e‑mail of telefoon.",
+
+    lodgeFilterAll: "Alles",
+    lodgeFilterQuiet: "Quiet Seeker",
+    lodgeFilterRomantic: "Romantic Drifter",
+    lodgeFilterWild: "Wild Explorer",
+    lodgeFilterCozy: "Cozy Gatherer",
+
+    fakeBookingMsg: (name) =>
+      `Je staat op het punt te boeken: ${name}\n\nDit venster simuleert een echte boekingspagina (data, aantal nachten, enz.).`,
+    questionLabel: (i, total) => `Vraag ${i} / ${total}`
+  }
+};
+
+/* === QUESTIONS PAR LANGUE === */
+const questionsByLang = {
+  fr: [
+    {
+      text: "Quand vous pensez à un week-end idéal, vous imaginez plutôt :",
+      answers: [
+        { text: "Une cabane isolée, sans voisins, juste les arbres", type: "detox" },
+        { text: "Un lodge avec bain chaud et dîner aux chandelles", type: "romantic" },
+        { text: "Des activités en pleine nature, chemins, vélo, kayak", type: "adventure" },
+        { text: "Un hébergement confortable, proche de quelques services", type: "comfort" }
+      ]
+    },
+    {
+      text: "Le matin, votre mood :",
+      answers: [
+        { text: "Réveil naturel, aucun réveil, juste le silence", type: "detox" },
+        { text: "Petit-déjeuner au lit avec vue, ambiance cosy", type: "romantic" },
+        { text: "Lever tôt pour profiter au maximum des activités", type: "adventure" },
+        { text: "Grasse matinée puis balade tranquille dans les bois", type: "comfort" }
+      ]
+    },
+    {
+      text: "Votre rapport au téléphone en week-end :",
+      answers: [
+        { text: "Mode avion quasi tout le week-end", type: "detox" },
+        { text: "Quelques photos à deux, puis téléphone rangé", type: "romantic" },
+        { text: "Photos, vidéos et carte pour explorer les environs", type: "adventure" },
+        { text: "Je le garde pour le confort (infos pratiques, musique)", type: "comfort" }
+      ]
+    },
+    {
+      text: "Le soir, votre moment préféré :",
+      answers: [
+        { text: "Lecture près du feu, sans bruit extérieur", type: "detox" },
+        { text: "Dîner aux chandelles, ambiance intimiste", type: "romantic" },
+        { text: "Dernière balade, feu de camp, regarder les étoiles", type: "adventure" },
+        { text: "Film, plaid, snacks gourmands dans un lodge douillet", type: "comfort" }
+      ]
+    },
+    {
+      text: "Niveau activités, vous êtes plutôt :",
+      answers: [
+        { text: "Slow, yoga, respiration, marche lente en forêt", type: "detox" },
+        { text: "Moments à deux, spa, massages, temps de qualité", type: "romantic" },
+        { text: "Randonnées, points de vue, sensation d’exploration", type: "adventure" },
+        { text: "Un mélange de petites activités et beaucoup de chill", type: "comfort" }
+      ]
+    },
+    {
+      text: "Votre hébergement idéal à Serenity Woods :",
+      answers: [
+        { text: "Cabane minimaliste, loin de tout, pas de vis-à-vis", type: "detox" },
+        { text: "Lodge romantique avec bain nordique ou jacuzzi privé", type: "romantic" },
+        { text: "Cabane perchée ou spot avec accès direct aux sentiers", type: "adventure" },
+        { text: "Tiny house confortable avec belle literie et vue", type: "comfort" }
+      ]
+    },
+    {
+      text: "Quand vous pensez au mot « luxe », vous voyez :",
+      answers: [
+        { text: "Le temps, le calme, aucun planning", type: "detox" },
+        { text: "Des attentions, des détails, une ambiance pensée pour le couple", type: "romantic" },
+        { text: "La liberté d’explorer, de tester, de bouger", type: "adventure" },
+        { text: "Le confort, la chaleur, la sensation de cocon", type: "comfort" }
+      ]
+    },
+    {
+      text: "Votre activité signature à Serenity Woods serait :",
+      answers: [
+        { text: "Déconnexion totale : respiration, journal, sieste en hamac", type: "detox" },
+        { text: "Bain chaud extérieur au coucher du soleil, à deux", type: "romantic" },
+        { text: "Boucle de randonnée avec spots panoramiques", type: "adventure" },
+        { text: "Brunch tardif, promenade, jeux de société dans la cabane", type: "comfort" }
+      ]
+    },
+    {
+      text: "En couple, vous cherchez surtout :",
+      answers: [
+        { text: "Un endroit pour vraiment se recentrer ensemble", type: "detox" },
+        { text: "Des moments intenses, complices, en mode parenthèse à deux", type: "romantic" },
+        { text: "Des souvenirs d’aventure à raconter ensuite", type: "adventure" },
+        { text: "Un espace sécurisant où on se sent bien tous les deux", type: "comfort" }
+      ]
+    },
+    {
+      text: "Si vous deviez décrire votre vibe en un mot :",
+      answers: [
+        { text: "Slow & minimaliste", type: "detox" },
+        { text: "Intense & amoureux", type: "romantic" },
+        { text: "Curieux & dynamique", type: "adventure" },
+        { text: "Cosy & chill", type: "comfort" }
+      ]
+    }
+  ],
+  en: [
+    {
+      text: "When you think of an ideal weekend, you imagine:",
+      answers: [
+        { text: "A secluded cabin with no neighbours, only trees", type: "detox" },
+        { text: "A lodge with hot tub and candlelit dinner", type: "romantic" },
+        { text: "Outdoor activities: trails, biking, kayaking", type: "adventure" },
+        { text: "A comfortable place, close to a few services", type: "comfort" }
+      ]
+    },
+    {
+      text: "In the morning, your mood is:",
+      answers: [
+        { text: "Natural wake-up, no alarm, just silence", type: "detox" },
+        { text: "Breakfast in bed with a view, cosy atmosphere", type: "romantic" },
+        { text: "Up early to make the most of activities", type: "adventure" },
+        { text: "Sleep in, then a peaceful walk in the woods", type: "comfort" }
+      ]
+    },
+    {
+      text: "Your relationship with your phone on a weekend:",
+      answers: [
+        { text: "Airplane mode almost the whole weekend", type: "detox" },
+        { text: "A few couple photos, then phone away", type: "romantic" },
+        { text: "Photos, videos and maps to explore the area", type: "adventure" },
+        { text: "I keep it for comfort (practical info, music)", type: "comfort" }
+      ]
+    },
+    {
+      text: "In the evening, your favourite moment is:",
+      answers: [
+        { text: "Reading by the fire, no outside noise", type: "detox" },
+        { text: "Candlelit dinner, intimate atmosphere", type: "romantic" },
+        { text: "Last walk, campfire, watching the stars", type: "adventure" },
+        { text: "Movie, blanket, snacks in a cosy lodge", type: "comfort" }
+      ]
+    },
+    {
+      text: "For activities, you are more:",
+      answers: [
+        { text: "Slow: yoga, breathing, slow forest walks", type: "detox" },
+        { text: "Moments for two: spa, massages, quality time", type: "romantic" },
+        { text: "Hikes, viewpoints, a sense of exploration", type: "adventure" },
+        { text: "A mix of light activities and a lot of chill", type: "comfort" }
+      ]
+    },
+    {
+      text: "Your ideal accommodation at Serenity Woods:",
+      answers: [
+        { text: "Minimalist cabin, far from everything, no neighbours", type: "detox" },
+        { text: "Romantic lodge with hot tub or private jacuzzi", type: "romantic" },
+        { text: "Treehouse or spot with direct access to trails", type: "adventure" },
+        { text: "Comfortable tiny house with great bedding and a view", type: "comfort" }
+      ]
+    },
+    {
+      text: "When you think of the word “luxury”, you see:",
+      answers: [
+        { text: "Time, calm, no schedule", type: "detox" },
+        { text: "Thoughtful details and an atmosphere for couples", type: "romantic" },
+        { text: "Freedom to explore, try and move around", type: "adventure" },
+        { text: "Comfort, warmth, a cocoon feeling", type: "comfort" }
+      ]
+    },
+    {
+      text: "Your signature activity at Serenity Woods would be:",
+      answers: [
+        { text: "Total digital detox: breathing, journaling, hammock nap", type: "detox" },
+        { text: "Outdoor hot bath at sunset, together", type: "romantic" },
+        { text: "Panoramic hiking loop", type: "adventure" },
+        { text: "Late brunch, walk, board games in the cabin", type: "comfort" }
+      ]
+    },
+    {
+      text: "As a couple, you mainly look for:",
+      answers: [
+        { text: "A place to really recentre together", type: "detox" },
+        { text: "Intense, close moments, like a bubble for two", type: "romantic" },
+        { text: "Adventure memories to tell afterwards", type: "adventure" },
+        { text: "A safe space where you both feel good", type: "comfort" }
+      ]
+    },
+    {
+      text: "If you had to describe your vibe in one word:",
+      answers: [
+        { text: "Slow & minimalist", type: "detox" },
+        { text: "Intense & romantic", type: "romantic" },
+        { text: "Curious & dynamic", type: "adventure" },
+        { text: "Cosy & chill", type: "comfort" }
+      ]
+    }
+  ],
+  nl: [
     {
       text: "Als je aan een ideaal weekend denkt, stel je je vooral voor:",
       answers: [
@@ -978,403 +1531,668 @@
       ]
     }
   ]
-    };
+};
 
-    /* IMAGES MOOD CARDS – mets tes fichiers dans /images et adapte les noms */
-    const moodCards = [
-      { type: "detox",    title: "Cabane en pleine forêt", tag: "Silence absolu", text: "Cabane isolée, entourée d’arbres.",              image: "Swipe 1.jpg" },
-      { type: "romantic", title: "Bain nordique au coucher du soleil", tag: "Romantic spa", text: "Bain chaud extérieur avec vue.",        image: "Swipe 2.jpg" },
-      { type: "adventure",title: "Randonnée panoramique",  tag: "Nature aventure", text: "Sentier avec vue sur la vallée.",                image: "Swipe 3.png" },
-      { type: "comfort",  title: "Tiny house cocoon",       tag: "Cosy & chill", text: "Intérieur chaleureux, grande literie.",            image: "Swipe 4.png" },
-      { type: "detox",    title: "Hamac entre les pins",    tag: "Digital detox", text: "Sieste sans notifications.",                      image: "Swipe 5.png" },
-      { type: "romantic", title: "Dîner aux chandelles",    tag: "Couple time", text: "Table pour deux, produits locaux.",                image: "Swipe 6.png" }
-    ];
-
-    const profiles = {
-      detox: {
-        label: "Digital Detox Lovers",
-        tag: "Silence • Nature • Slow",
-        description:
-          "Vous rêvez d’un week-end où le temps ralentit vraiment : peu d’écrans, beaucoup de nature, des cabanes isolées et un cadre pensé pour respirer à deux.",
-        favorites: [
-          {
-            title: "Cabane Deep Forest",
-            text: "Cabane isolée, aucune route visible, accès direct aux sentiers et espace feu de camp pour se reconnecter loin du bruit."
-          },
-          {
-            title: "Rituel Digital Detox",
-            text: "Carnet, tisane et micro-rituels pour couper les notifications et se reconnecter à soi et à l’autre."
-          }
-        ]
+/* === PROFILS GLAMPING (4 TYPES) === */
+const profiles = {
+  detox: {
+    label: "Quiet Seeker",
+    tag: "Silence • Nature • Slow",
+    description:
+      "Vous rêvez d’un week‑end où le temps ralentit vraiment : peu d’écrans, beaucoup de nature et un cocon isolé pour respirer à deux.",
+    favorites: [
+      {
+        title: "Deep Forest Cabin",
+        text: "Cabane isolée, aucune route visible, accès direct aux sentiers et espace feu de camp."
       },
-      romantic: {
-        label: "Romantic Escapists",
-        tag: "Couple time • Intimité",
-        description:
-          "Votre priorité : créer une parenthèse à deux, avec des attentions, une ambiance cosy et des moments qui renforcent la complicité.",
-        favorites: [
-          {
-            title: "Lodge Moonlight",
-            text: "Lodge avec bain nordique privé, éclairages doux, playlist cosy et vue dégagée."
-          },
-          {
-            title: "Signature Romantic Dinner",
-            text: "Dîner aux chandelles en lodge, produits locaux et ambiance intimiste."
-          }
-        ]
+      {
+        title: "Rituel Digital Detox",
+        text: "Carnet, tisane et micro‑rituels pour couper les notifications et se reconnecter."
+      }
+    ]
+  },
+  romantic: {
+    label: "Romantic Drifter",
+    tag: "Couple time • Intimité",
+    description:
+      "Votre priorité : créer une parenthèse à deux, avec des attentions, une ambiance cosy et des moments qui renforcent la complicité.",
+    favorites: [
+      {
+        title: "Moonlight Lodge",
+        text: "Lodge avec bain nordique privé, éclairages doux et vue dégagée."
       },
-      adventure: {
-        label: "Nature Adventurers",
-        tag: "Exploration • Outdoor",
-        description:
-          "Vous venez chercher des sensations, des sentiers, des panoramas et la satisfaction d’avoir vraiment exploré les alentours.",
-        favorites: [
-          {
-            title: "Cabane Panorama Trail",
-            text: "Cabane perchée proche des départs de randonnée, avec cartes de sentiers et spots secrets."
-          },
-          {
-            title: "Adventure Pack",
-            text: "Boucles à pied ou à vélo, snack énergétique et conseils pour profiter de chaque journée dehors."
-          }
-        ]
+      {
+        title: "Signature Romantic Dinner",
+        text: "Dîner aux chandelles en lodge, produits locaux et ambiance intimiste."
+      }
+    ]
+  },
+  adventure: {
+    label: "Wild Explorer",
+    tag: "Exploration • Outdoor",
+    description:
+      "Vous recherchez des sentiers, des panoramas et la sensation d’avoir vraiment exploré la nature autour de vous.",
+    favorites: [
+      {
+        title: "Panorama Trail Cabin",
+        text: "Cabane perchée proche des départs de randonnée, cartes de sentiers et spots secrets."
       },
-      comfort: {
-        label: "Cosy Comfort Seekers",
-        tag: "Cocon • Bien-être",
-        description:
-          "Vous cherchez surtout un cocon chaleureux : belle literie, bons repas, temps pour se poser et se faire plaisir sans pression.",
-        favorites: [
-          {
-            title: "Tiny House Cocoon",
-            text: "Tiny house lumineuse, literie haut de gamme, plaid, grande baie vitrée et petit-déjeuner livré."
-          },
-          {
-            title: "Slow Sunday Pack",
-            text: "Brunch tardif, jeux, promenades douces et ambiance chill toute la journée."
-          }
-        ]
+      {
+        title: "Adventure Pack",
+        text: "Boucles à pied ou à vélo, snack énergétique et conseils pour profiter de chaque journée dehors."
       }
-    };
+    ]
+  },
+  comfort: {
+    label: "Cozy Gatherer",
+    tag: "Cocon • Bien‑être",
+    description:
+      "Vous cherchez surtout un cocon chaleureux : belle literie, bons repas et temps pour se retrouver sans pression.",
+    favorites: [
+      {
+        title: "Cozy Gatherer Tiny House",
+        text: "Tiny house lumineuse, literie haut de gamme, plaid et grande baie vitrée."
+      },
+      {
+        title: "Slow Sunday Pack",
+        text: "Brunch tardif, jeux, promenades douces et ambiance chill toute la journée."
+      }
+    ]
+  }
+};
 
-    // ÉTAT
-    let currentLang = "fr";
-    let questions = questionsByLang[currentLang];
-    let currentQuestion = 0;
-    let answersHistory = [];
-    let moodLikes = [];
-    let scores = { detox: 0, romantic: 0, adventure: 0, comfort: 0 };
+/* === LODGES (PAGE RÉSERVATION) === */
+const lodges = [
+  {
+    id: "deep-forest-cabin",
+    name: "Deep Forest Cabin",
+    type: "quiet",
+    personality: "Quiet Seeker",
+    description:
+      "Cabane isolée au cœur de la forêt, sans vis‑à‑vis, idéale pour une digital detox à deux.",
+    features: [
+      "Silence garanti, pas de voisin direct",
+      "Poêle à bois & grande baie vitrée",
+      "Petit‑déjeuner local livré à la cabane"
+    ],
+    price: "À partir de 260€ / nuit",
+    image: "images/lodge-quiet-1.jpg"
+  },
+  {
+    id: "moonlight-lodge",
+    name: "Moonlight Lodge",
+    type: "romantic",
+    personality: "Romantic Drifter",
+    description:
+      "Lodge romantique avec bain nordique privé et vue dégagée sur la nature.",
+    features: [
+      "Bain nordique extérieur",
+      "Dîner aux chandelles en option",
+      "Ambiance lumineuse cosy & playlists"
+    ],
+    price: "À partir de 320€ / nuit",
+    image: "site 1.png"
+  },
+  {
+    id: "panorama-trail-cabin",
+    name: "Panorama Trail Cabin",
+    type: "wild",
+    personality: "Wild Explorer",
+    description:
+      "Base camp confortable à deux pas des sentiers panoramiques et points de vue.",
+    features: [
+      "Accès direct aux randonnées",
+      "Espace feu de camp",
+      "Cartes & idées de boucles prêtes"
+    ],
+    price: "À partir de 240€ / nuit",
+    image: "Site .png"
+  },
+  {
+    id: "cozy-gatherer-tiny",
+    name: "Cozy Gatherer Tiny House",
+    type: "cozy",
+    personality: "Cozy Gatherer",
+    description:
+      "Tiny house lumineuse pensée comme un cocon pour se retrouver ensemble.",
+    features: [
+      "Literie haut de gamme",
+      "Grand salon cosy & jeux de société",
+      "Option brunch tardif livré"
+    ],
+    price: "À partir de 280€ / nuit",
+    image: "images/lodge-cozy-1.jpg"
+  }
+];
 
-    // DOM
-    const views = document.querySelectorAll(".view");
-    const tabs = document.querySelectorAll(".tab");
-    const enterBtn = document.getElementById("enterBtn");
-    const profileIcon = document.querySelector(".profile-icon");
+/* === ÉTAT GLOBAL === */
+let currentLang = "fr";
+let questions = questionsByLang[currentLang];
+let currentQuestion = 0;
+let answersHistory = [];
+let moodLikes = [];
+let scores = { detox: 0, romantic: 0, adventure: 0, comfort: 0 };
+let currentLodgeType = "quiet";
 
-    const quizStepLabel = document.getElementById("quizStepLabel");
-    const quizFill = document.getElementById("quizFill");
-    const quizQuestion = document.getElementById("quizQuestion");
-    const quizAnswers = document.getElementById("quizAnswers");
-    const nextBtn = document.getElementById("nextBtn");
+/* === DOM SÉLECTION === */
+const views = document.querySelectorAll(".view");
+const tabs = document.querySelectorAll(".tab");
+const langButtons = document.querySelectorAll(".lang-btn");
 
-    const swipeWrapper = document.getElementById("swipeWrapper");
-    const swipeEmptyEl = document.getElementById("swipeEmpty");
-    const likeBtn = document.getElementById("likeBtn");
-    const dislikeBtn = document.getElementById("dislikeBtn");
+const taglineText = document.getElementById("taglineText");
+const heroKicker = document.getElementById("heroKicker");
+const heroTitle = document.getElementById("heroTitle");
+const heroSub = document.getElementById("heroSub");
+const heroQuizBtn = document.getElementById("heroQuizBtn");
+const heroLodgesBtn = document.getElementById("heroLodgesBtn");
+const heroMeta = document.getElementById("heroMeta");
 
-    const profileTypeEl = document.getElementById("profileType");
-    const profileTagEl = document.getElementById("profileTag");
-    const profileTextEl = document.getElementById("profileText");
-    const profileMixBar = document.getElementById("profileMixBar");
-    const favListEl = document.getElementById("favList");
-    const matchIntroEl = document.getElementById("matchIntro");
+const welcomeTitle = document.getElementById("welcomeTitle");
+const welcomeSubtitle = document.getElementById("welcomeSubtitle");
+const enterBtn = document.getElementById("enterBtn");
 
-    const soundToggle = document.getElementById("soundToggle");
-    const restartBtn = document.getElementById("restartBtn");
+const quizTitle = document.getElementById("quizTitle");
+const quizSubtitle = document.getElementById("quizSubtitle");
+const quizStepLabel = document.getElementById("quizStepLabel");
+const quizFill = document.getElementById("quizFill");
+const quizQuestion = document.getElementById("quizQuestion");
+const quizAnswers = document.getElementById("quizAnswers");
+const nextBtn = document.getElementById("nextBtn");
 
-    const langButtons = document.querySelectorAll(".lang-btn");
-    const taglineText = document.getElementById("taglineText");
-    const tabWelcomeLabel = document.getElementById("tabWelcomeLabel");
-    const tabQuizLabel = document.getElementById("tabQuizLabel");
-    const tabSwipeLabel = document.getElementById("tabSwipeLabel");
-    const tabMatchLabel = document.getElementById("tabMatchLabel");
-    const tabSettingsLabel = document.getElementById("tabSettingsLabel");
+const swipeTitle = document.getElementById("swipeTitle");
+const swipeSubtitle = document.getElementById("swipeSubtitle");
+const swipeWrapper = document.getElementById("swipeWrapper");
+const swipeEmptyEl = document.getElementById("swipeEmpty");
+const likeBtn = document.getElementById("likeBtn");
+const dislikeBtn = document.getElementById("dislikeBtn");
 
-    const welcomeTitle = document.getElementById("welcomeTitle");
-    const welcomeSubtitle = document.getElementById("welcomeSubtitle");
-    const quizTitle = document.getElementById("quizTitle");
-    const quizSubtitle = document.getElementById("quizSubtitle");
-    const swipeTitle = document.getElementById("swipeTitle");
-    const swipeSubtitle = document.getElementById("swipeSubtitle");
-    const profileTitle = document.getElementById("profileTitle");
-    const profileSubtitle = document.getElementById("profileSubtitle");
-    const matchTitle = document.getElementById("matchTitle");
-    const matchSubtitle = document.getElementById("matchSubtitle");
-    const settingsTitle = document.getElementById("settingsTitle");
-    const settingsSubtitle = document.getElementById("settingsSubtitle");
-    const settingsSoundLabel = document.getElementById("settingsSoundLabel");
-    const settingsReplayLabel = document.getElementById("settingsReplayLabel");
+const profileIcon = document.querySelector(".profile-icon");
+const profileTitle = document.getElementById("profileTitle");
+const profileSubtitle = document.getElementById("profileSubtitle");
+const profileTypeEl = document.getElementById("profileType");
+const profileTagEl = document.getElementById("profileTag");
+const profileTextEl = document.getElementById("profileText");
+const profileMixBar = document.getElementById("profileMixBar");
+const seeLodgesBtn = document.getElementById("seeLodgesBtn");
 
-    // NAVIGATION
-    function showView(id) {
-      views.forEach(v => v.classList.remove("active"));
-      document.getElementById("view-" + id).classList.add("active");
-      tabs.forEach(t => t.classList.toggle("active", t.dataset.view === id));
-    }
+const favListEl = document.getElementById("favList");
+const matchTitle = document.getElementById("matchTitle");
+const matchSubtitle = document.getElementById("matchSubtitle");
+const matchIntroEl = document.getElementById("matchIntro");
 
-    tabs.forEach(tab => {
-      tab.addEventListener("click", () => showView(tab.dataset.view));
+const settingsTitle = document.getElementById("settingsTitle");
+const settingsSubtitle = document.getElementById("settingsSubtitle");
+const settingsSoundLabel = document.getElementById("natureAudio");
+const settingsAnimationsLabel = document.getElementById("settingsAnimationsLabel");
+const settingsReplayLabel = document.getElementById("settingsReplayLabel");
+const soundToggle = document.getElementById("soundToggle");
+const animToggle = document.getElementById("animToggle");
+const restartBtn = document.getElementById("restartBtn");
+
+const tabWelcomeLabel = document.getElementById("tabWelcomeLabel");
+const tabQuizLabel = document.getElementById("tabQuizLabel");
+const tabSwipeLabel = document.getElementById("tabSwipeLabel");
+const tabMatchLabel = document.getElementById("tabMatchLabel");
+const tabSettingsLabel = document.getElementById("tabSettingsLabel");
+
+const lodgesTitle = document.getElementById("lodgesTitle");
+const lodgesSubtitle = document.getElementById("lodgesSubtitle");
+const lodgesList = document.getElementById("lodgesList");
+const lodgeFilterButtons = document.querySelectorAll(".lodge-filter");
+
+const infoTitle = document.getElementById("infoTitle");
+const infoSubtitle = document.getElementById("infoSubtitle");
+const infoAccessTitle = document.getElementById("infoAccessTitle");
+const infoAccessText = document.getElementById("infoAccessText");
+const infoStayTitle = document.getElementById("infoStayTitle");
+const infoStayText = document.getElementById("infoStayText");
+const infoSustainTitle = document.getElementById("infoSustainTitle");
+const infoSustainText = document.getElementById("infoSustainText");
+const infoContactTitle = document.getElementById("infoContactTitle");
+const infoContactText = document.getElementById("infoContactText");
+
+const heroSection = document.getElementById("top");
+const lodgesPage = document.getElementById("lodgesPage");
+const infoPage = document.getElementById("infoPage");
+
+/* === NAVIGATION VUES APP === */
+function showView(id) {
+  views.forEach(v => v.classList.remove("active"));
+  document.getElementById("view-" + id).classList.add("active");
+  tabs.forEach(t => t.classList.toggle("active", t.dataset.view === id));
+}
+
+tabs.forEach(tab => {
+  tab.addEventListener("click", () => showView(tab.dataset.view));
+});
+
+profileIcon.addEventListener("click", () => showView("profile"));
+enterBtn.addEventListener("click", () => {
+  showView("quiz");
+  heroSection.scrollIntoView({ behavior: "smooth" });
+});
+heroQuizBtn.addEventListener("click", () => {
+  showView("quiz");
+  heroSection.scrollIntoView({ behavior: "smooth" });
+});
+heroLodgesBtn.addEventListener("click", () => {
+  renderLodges("all");
+  lodgesPage.scrollIntoView({ behavior: "smooth" });
+});
+
+/* === QUIZ === */
+function renderQuestion() {
+  const total = questions.length;
+  const q = questions[currentQuestion];
+  if (!q) return;
+
+  quizQuestion.textContent = q.text;
+  quizAnswers.innerHTML = "";
+  nextBtn.disabled = true;
+
+  q.answers.forEach(ans => {
+    const btn = document.createElement("button");
+    btn.className = "answer-btn";
+    btn.textContent = ans.text;
+    btn.addEventListener("click", () => {
+      document.querySelectorAll(".answer-btn").forEach(b => b.classList.remove("selected"));
+      btn.classList.add("selected");
+      answersHistory[currentQuestion] = ans.type;
+      nextBtn.disabled = false;
     });
+    quizAnswers.appendChild(btn);
+  });
 
-    profileIcon.addEventListener("click", () => showView("profile"));
-    enterBtn.addEventListener("click", () => showView("quiz"));
+  const t = translations[currentLang];
+  quizStepLabel.textContent = t.questionLabel(currentQuestion + 1, total);
+  quizFill.style.width = ((currentQuestion + 1) / total) * 100 + "%";
+}
 
-    // QUIZ
-    function renderQuestion() {
-      const q = questions[currentQuestion];
-      quizQuestion.textContent = q.text;
-      quizAnswers.innerHTML = "";
-      nextBtn.disabled = true;
-
-      q.answers.forEach(ans => {
-        const btn = document.createElement("button");
-        btn.className = "answer-btn";
-        btn.textContent = ans.text;
-        btn.addEventListener("click", () => {
-          document.querySelectorAll(".answer-btn").forEach(b => b.classList.remove("selected"));
-          btn.classList.add("selected");
-          answersHistory[currentQuestion] = ans.type;
-          nextBtn.disabled = false;
-        });
-        quizAnswers.appendChild(btn);
-      });
-
-      const labelFn = translations[currentLang].questionLabel;
-      quizStepLabel.textContent = labelFn(currentQuestion + 1);
-      quizFill.style.width = ((currentQuestion + 1) / questions.length) * 100 + "%";
-    }
-
-    nextBtn.addEventListener("click", () => {
-      if (currentQuestion < questions.length - 1) {
-        currentQuestion++;
-        renderQuestion();
-      } else {
-        updateProfileAndFavorites();
-        showView("profile");
-      }
-    });
-
-    // MOOD CARDS
-    function renderMoodCards() {
-      swipeWrapper.innerHTML = "";
-      moodLikes = [];
-
-      if (!moodCards.length) {
-        swipeWrapper.innerHTML = `<p class="swipe-empty">${translations[currentLang].swipeEmptyStart}</p>`;
-        return;
-      }
-
-      for (let i = moodCards.length - 1; i >= 0; i--) {
-        const c = moodCards[i];
-        const card = document.createElement("div");
-        card.className = "swipe-card";
-        card.dataset.type = c.type;
-        card.innerHTML = `
-          <img src="${c.image}" alt="${c.title}">
-          <div class="swipe-badge like">LIKE</div>
-          <div class="swipe-badge dislike">NOPE</div>
-          <div class="swipe-card-body">
-            <div class="swipe-label">${c.title}</div>
-            <div class="swipe-tag">${c.tag}</div>
-            <div>${c.text}</div>
-          </div>
-        `;
-        swipeWrapper.appendChild(card);
-      }
-    }
-
-    function getTopCard() {
-      const cards = swipeWrapper.querySelectorAll(".swipe-card");
-      if (!cards.length) return null;
-      return cards[cards.length - 1];
-    }
-
-    function swipe(liked) {
-      const card = getTopCard();
-      if (!card) return;
-
-      const likeBadge = card.querySelector(".swipe-badge.like");
-      const dislikeBadge = card.querySelector(".swipe-badge.dislike");
-
-      if (liked) {
-        moodLikes.push(card.dataset.type);
-        likeBadge.style.opacity = "1";
-        card.style.transform = "translateX(120%) rotate(10deg)";
-      } else {
-        dislikeBadge.style.opacity = "1";
-        card.style.transform = "translateX(-120%) rotate(-10deg)";
-      }
-      card.style.opacity = "0";
-
-      setTimeout(() => {
-        card.remove();
-        if (!getTopCard()) {
-          swipeWrapper.innerHTML = `<p class="swipe-empty">${translations[currentLang].swipeEmptyEnd}</p>`;
-          updateProfileAndFavorites();
-        }
-      }, 220);
-    }
-
-    likeBtn.addEventListener("click", () => swipe(true));
-    dislikeBtn.addEventListener("click", () => swipe(false));
-
-    // PROFIL
-    function computeScores() {
-      scores = { detox: 0, romantic: 0, adventure: 0, comfort: 0 };
-      answersHistory.forEach(t => { if (scores[t] != null) scores[t]++; });
-      moodLikes.forEach(t => { if (scores[t] != null) scores[t]++; });
-    }
-
-    function getTopType() {
-      computeScores();
-      let max = -1;
-      let top = "detox";
-      Object.entries(scores).forEach(([type, value]) => {
-        if (value > max) {
-          max = value;
-          top = type;
-        }
-      });
-      return top;
-    }
-
-    function updateProfileAndFavorites() {
-      if (!answersHistory.length && !moodLikes.length) {
-        profileTypeEl.textContent = translations[currentLang].profileIntro;
-        profileTagEl.style.display = "none";
-        profileTextEl.textContent = "";
-        profileMixBar.innerHTML = "";
-        favListEl.innerHTML = "";
-        favListEl.appendChild(matchIntroEl);
-        matchIntroEl.textContent = translations[currentLang].matchIntro;
-        return;
-      }
-
-      const topType = getTopType();
-      const cfg = profiles[topType];
-
-      profileTypeEl.textContent = cfg.label;
-      profileTagEl.style.display = "inline-block";
-      profileTagEl.textContent = cfg.tag;
-      profileTextEl.textContent = cfg.description;
-
-      favListEl.innerHTML = "";
-      cfg.favorites.forEach(item => {
-        const div = document.createElement("div");
-        div.className = "fav-item";
-        div.innerHTML = `<div class="fav-title">${item.title}</div><div>${item.text}</div>`;
-        favListEl.appendChild(div);
-      });
-
-      profileMixBar.innerHTML = "";
-      const total = scores.detox + scores.romantic + scores.adventure + scores.comfort || 1;
-      const segments = [
-        { key: "detox", color: "#4f7c5b" },
-        { key: "romantic", color: "#c96a6a" },
-        { key: "adventure", color: "#4a6fae" },
-        { key: "comfort", color: "#c89b4a" }
-      ];
-      segments.forEach(seg => {
-        const width = (scores[seg.key] / total) * 100;
-        const bar = document.createElement("div");
-        bar.style.width = width + "%";
-        bar.style.background = seg.color;
-        profileMixBar.appendChild(bar);
-      });
-    }
-
-    // SETTINGS
-    soundToggle.addEventListener("click", () => {
-      soundToggle.classList.toggle("active");
-    });
-
-    restartBtn.addEventListener("click", () => {
-      currentQuestion = 0;
-      answersHistory = [];
-      moodLikes = [];
-      scores = { detox: 0, romantic: 0, adventure: 0, comfort: 0 };
-      renderQuestion();
-      renderMoodCards();
-      updateProfileAndFavorites();
-      showView("quiz");
-    });
-
-    // LANGUES
-    function setLanguage(lang) {
-      if (!translations[lang]) return;
-      currentLang = lang;
-
-      questions = questionsByLang[currentLang] && questionsByLang[currentLang].length
-        ? questionsByLang[currentLang]
-        : questionsByLang["fr"];
-
-      currentQuestion = 0;
-      answersHistory = [];
-      renderQuestion();
-
-      const t = translations[lang];
-
-      taglineText.textContent = t.taglineText;
-      welcomeTitle.textContent = t.welcomeTitle;
-      welcomeSubtitle.innerText = t.welcomeSubtitle;
-      enterBtn.textContent = t.enterBtn;
-
-      quizTitle.textContent = t.quizTitle;
-      quizSubtitle.textContent = t.quizSubtitle;
-      nextBtn.textContent = t.nextBtn;
-
-      swipeTitle.textContent = t.swipeTitle;
-      swipeSubtitle.textContent = t.swipeSubtitle;
-      swipeEmptyEl.textContent = t.swipeEmptyStart;
-
-      profileTitle.textContent = t.profileTitle;
-      profileSubtitle.textContent = t.profileSubtitle;
-      profileTypeEl.textContent = t.profileIntro;
-
-      matchTitle.textContent = t.matchTitle;
-      matchSubtitle.textContent = t.matchSubtitle;
-      matchIntroEl.textContent = t.matchIntro;
-
-      settingsTitle.textContent = t.settingsTitle;
-      settingsSubtitle.textContent = t.settingsSubtitle;
-      settingsSoundLabel.textContent = t.settingsSoundLabel;
-      settingsReplayLabel.textContent = t.settingsReplayLabel;
-      restartBtn.textContent = t.restartBtn;
-
-      tabWelcomeLabel.textContent = t.tabWelcomeLabel;
-      tabQuizLabel.textContent = t.tabQuizLabel;
-      tabSwipeLabel.textContent = t.tabSwipeLabel;
-      tabMatchLabel.textContent = t.tabMatchLabel;
-      tabSettingsLabel.textContent = t.tabSettingsLabel;
-
-      document.documentElement.lang = lang;
-    }
-
-    langButtons.forEach(btn => {
-      btn.addEventListener("click", () => {
-        langButtons.forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        setLanguage(btn.dataset.lang);
-      });
-    });
-
-    // INIT
-    setLanguage("fr");
-    renderMoodCards();
+nextBtn.addEventListener("click", () => {
+  if (currentQuestion < questions.length - 1) {
+    currentQuestion++;
+    renderQuestion();
+  } else {
     updateProfileAndFavorites();
-    showView("welcome");
-  </script>
+    showView("profile");
+    profileSectionScroll();
+  }
+});
+
+function profileSectionScroll() {
+  heroSection.scrollIntoView({ behavior: "smooth" });
+}
+
+/* === MOOD CARDS === */
+const moodCards = [
+  { 
+    type: "detox",
+    title: "Cabane en pleine forêt",
+    tag: "Silence absolu",
+    text: "Cabane isolée, entourée d’arbres.",
+    image: "Swipe 1.jpg"
+  },
+  { 
+    type: "romantic",
+    title: "Bain nordique au coucher du soleil",
+    tag: "Romantic spa",
+    text: "Bain chaud extérieur avec vue.",
+    image: "Swipe 2.jpg"
+  },
+  { 
+    type: "adventure",
+    title: "Randonnée panoramique",
+    tag: "Nature aventure",
+    text: "Sentier avec vue sur la vallée.",
+    image: "Swipe 3.jpg"
+  },
+  { 
+    type: "comfort",
+    title: "Tiny house cocoon",
+    tag: "Cosy & chill",
+    text: "Intérieur chaleureux, grande literie.",
+    image: "Swipe 4.jpg"
+  },
+  { 
+    type: "detox",
+    title: "Hamac entre les pins",
+    tag: "Digital detox",
+    text: "Sieste sans notifications.",
+    image: "Swipe 5.jpg"
+  },
+  { 
+    type: "romantic",
+    title: "Dîner aux chandelles",
+    tag: "Couple time",
+    text: "Table pour deux, produits locaux.",
+    image: "Swipe 6.jpg"
+  }
+];
+
+function renderMoodCards() {
+  swipeWrapper.innerHTML = "";
+  moodLikes = [];
+
+  if (!moodCards.length) {
+    swipeWrapper.innerHTML = `<p class="swipe-empty">${translations[currentLang].swipeEmptyStart}</p>`;
+    return;
+  }
+
+  for (let i = moodCards.length - 1; i >= 0; i--) {
+    const c = moodCards[i];
+    const card = document.createElement("div");
+    card.className = "swipe-card";
+    card.dataset.type = c.type;
+    card.innerHTML = `
+      <img src="${c.image}" alt="${c.title}">
+      <div class="swipe-badge like">LIKE</div>
+      <div class="swipe-badge dislike">NOPE</div>
+      <div class="swipe-card-body">
+        <div class="swipe-label">${c.title}</div>
+        <div class="swipe-tag">${c.tag}</div>
+        <div>${c.text}</div>
+      </div>
+    `;
+    swipeWrapper.appendChild(card);
+  }
+}
+
+function getTopCard() {
+  const cards = swipeWrapper.querySelectorAll(".swipe-card");
+  if (!cards.length) return null;
+  return cards[cards.length - 1];
+}
+
+function swipe(liked) {
+  const card = getTopCard();
+  if (!card) return;
+
+  const likeBadge = card.querySelector(".swipe-badge.like");
+  const dislikeBadge = card.querySelector(".swipe-badge.dislike");
+
+  if (liked) {
+    moodLikes.push(card.dataset.type);
+    likeBadge.style.opacity = "1";
+    card.style.transform = "translateX(120%) rotate(10deg)";
+  } else {
+    dislikeBadge.style.opacity = "1";
+    card.style.transform = "translateX(-120%) rotate(-10deg)";
+  }
+  card.style.opacity = "0";
+
+  setTimeout(() => {
+    card.remove();
+    if (!getTopCard()) {
+      swipeWrapper.innerHTML = `<p class="swipe-empty">${translations[currentLang].swipeEmptyEnd}</p>`;
+      updateProfileAndFavorites();
+    }
+  }, 220);
+}
+
+likeBtn.addEventListener("click", () => swipe(true));
+dislikeBtn.addEventListener("click", () => swipe(false));
+
+/* === SCORES & PROFIL === */
+function computeScores() {
+  scores = { detox: 0, romantic: 0, adventure: 0, comfort: 0 };
+  answersHistory.forEach(t => { if (scores[t] != null) scores[t]++; });
+  moodLikes.forEach(t => { if (scores[t] != null) scores[t]++; });
+}
+
+function getTopType() {
+  computeScores();
+  let max = -1;
+  let top = "detox";
+  Object.entries(scores).forEach(([type, value]) => {
+    if (value > max) {
+      max = value;
+      top = type;
+    }
+  });
+  return top;
+}
+
+function mapTypeToLodgeType(t) {
+  if (t === "detox") return "quiet";
+  if (t === "romantic") return "romantic";
+  if (t === "adventure") return "wild";
+  if (t === "comfort") return "cozy";
+  return "quiet";
+}
+
+function updateProfileAndFavorites() {
+  if (!answersHistory.length && !moodLikes.length) {
+    profileTypeEl.textContent = translations[currentLang].profileIntro;
+    profileTagEl.style.display = "none";
+    profileTextEl.textContent = "";
+    profileMixBar.innerHTML = "";
+    favListEl.innerHTML = "";
+    favListEl.appendChild(matchIntroEl);
+    matchIntroEl.textContent = translations[currentLang].matchIntro;
+    currentLodgeType = "quiet";
+    return;
+  }
+
+  const topType = getTopType();
+  const cfg = profiles[topType];
+  currentLodgeType = mapTypeToLodgeType(topType);
+
+  profileTypeEl.textContent = cfg.label;
+  profileTagEl.style.display = "inline-block";
+  profileTagEl.textContent = cfg.tag;
+  profileTextEl.textContent = cfg.description;
+
+  favListEl.innerHTML = "";
+  cfg.favorites.forEach(item => {
+    const div = document.createElement("div");
+    div.className = "fav-item";
+    div.innerHTML = `<div class="fav-title">${item.title}</div><div>${item.text}</div>`;
+    favListEl.appendChild(div);
+  });
+
+  profileMixBar.innerHTML = "";
+  const total = scores.detox + scores.romantic + scores.adventure + scores.comfort || 1;
+  const segments = [
+    { key: "detox", color: "#4f7c5b" },
+    { key: "romantic", color: "#c96a6a" },
+    { key: "adventure", color: "#4a6fae" },
+    { key: "comfort", color: "#c89b4a" }
+  ];
+  segments.forEach(seg => {
+    const width = (scores[seg.key] / total) * 100;
+    const bar = document.createElement("div");
+    bar.style.width = width + "%";
+    bar.style.background = seg.color;
+    profileMixBar.appendChild(bar);
+  });
+}
+
+/* === LODGES – RENDU & FAUSSE RÉSERVATION === */
+function renderLodges(filterType = "all") {
+  lodgesList.innerHTML = "";
+  const t = translations[currentLang];
+
+  const data = lodges.filter(l => filterType === "all" || l.type === filterType);
+
+  if (!data.length) {
+    lodgesList.innerHTML = `<p style="font-family:Montserrat,system-ui,sans-serif;font-size:0.8rem;color:#6b645b;">Aucun lodge disponible pour ce filtre.</p>`;
+    return;
+  }
+
+  data.forEach(l => {
+    const card = document.createElement("article");
+    card.className = "lodge-card";
+    card.innerHTML = `
+      <div>
+        <img src="${l.image}" alt="${l.name}">
+      </div>
+      <div>
+        <div class="lodge-badge">${l.personality}</div>
+        <h3 class="lodge-name">${l.name}</h3>
+        <p class="lodge-desc">${l.description}</p>
+        <ul class="lodge-features">
+          ${l.features.map(f => `<li>${f}</li>`).join("")}
+        </ul>
+        <div class="lodge-bottom">
+          <span class="lodge-price">${l.price}</span>
+          <button class="primary-btn" data-book="${l.id}">
+            Réserver ce lodge
+          </button>
+        </div>
+      </div>
+    `;
+    lodgesList.appendChild(card);
+  });
+
+  lodgesList.querySelectorAll("button[data-book]").forEach(btn => {
+    btn.addEventListener("click", () => {
+      const lodgeId = btn.getAttribute("data-book");
+      openFakeBooking(lodgeId);
+    });
+  });
+}
+
+function openFakeBooking(lodgeId) {
+  const lodge = lodges.find(l => l.id === lodgeId);
+  if (!lodge) return;
+  alert(translations[currentLang].fakeBookingMsg(lodge.name));
+}
+
+lodgeFilterButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    lodgeFilterButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    renderLodges(btn.dataset.type);
+  });
+});
+
+seeLodgesBtn.addEventListener("click", () => {
+  renderLodges(currentLodgeType);
+  lodgesPage.scrollIntoView({ behavior: "smooth" });
+});
+
+/* === SETTINGS === */
+soundToggle.addEventListener("click", () => {
+  soundToggle.classList.toggle("active");
+  const on = soundToggle.classList.contains("active");
+
+  if (on) {
+    natureAudio.volume = 0.35; // volume doux
+    natureAudio.play().catch(() => {});
+  } else {
+    natureAudio.pause();
+  }
+});
+
+
+restartBtn.addEventListener("click", () => {
+  currentQuestion = 0;
+  answersHistory = [];
+  moodLikes = [];
+  scores = { detox: 0, romantic: 0, adventure: 0, comfort: 0 };
+  renderQuestion();
+  renderMoodCards();
+  updateProfileAndFavorites();
+  showView("quiz");
+});
+
+/* === CHANGEMENT DE LANGUE === */
+function setLanguage(lang) {
+  if (!translations[lang]) return;
+  currentLang = lang;
+  questions = questionsByLang[currentLang] && questionsByLang[currentLang].length
+    ? questionsByLang[currentLang]
+    : questionsByLang["fr"];
+
+  currentQuestion = 0;
+  answersHistory = [];
+  renderQuestion();
+
+  const t = translations[lang];
+
+  taglineText.textContent = t.taglineText;
+  heroKicker.textContent = t.heroKicker;
+  heroTitle.textContent = t.heroTitle;
+  heroSub.textContent = t.heroSub;
+  heroQuizBtn.textContent = t.heroQuizBtn;
+  heroLodgesBtn.textContent = t.heroLodgesBtn;
+  heroMeta.textContent = t.heroMeta;
+
+  welcomeTitle.textContent = t.welcomeTitle;
+  welcomeSubtitle.innerText = t.welcomeSubtitle;
+  enterBtn.textContent = t.enterBtn;
+
+  quizTitle.textContent = t.quizTitle;
+  quizSubtitle.textContent = t.quizSubtitle;
+  nextBtn.textContent = t.nextBtn;
+
+  swipeTitle.textContent = t.swipeTitle;
+  swipeSubtitle.textContent = t.swipeSubtitle;
+  swipeEmptyEl.textContent = t.swipeEmptyStart;
+
+  profileTitle.textContent = t.profileTitle;
+  profileSubtitle.textContent = t.profileSubtitle;
+  profileTypeEl.textContent = t.profileIntro;
+  seeLodgesBtn.textContent = t.seeLodgesBtn;
+
+  matchTitle.textContent = t.matchTitle;
+  matchSubtitle.textContent = t.matchSubtitle;
+  matchIntroEl.textContent = t.matchIntro;
+
+  settingsTitle.textContent = t.settingsTitle;
+  settingsSubtitle.textContent = t.settingsSubtitle;
+  settingsSoundLabel.textContent = t.settingsSoundLabel;
+  settingsAnimationsLabel.textContent = t.settingsAnimationsLabel;
+  settingsReplayLabel.textContent = t.settingsReplayLabel;
+  restartBtn.textContent = t.restartBtn;
+
+  tabWelcomeLabel.textContent = t.tabWelcomeLabel;
+  tabQuizLabel.textContent = t.tabQuizLabel;
+  tabSwipeLabel.textContent = t.tabSwipeLabel;
+  tabMatchLabel.textContent = t.tabMatchLabel;
+  tabSettingsLabel.textContent = t.tabSettingsLabel;
+
+  lodgesTitle.textContent = t.lodgesTitle;
+  lodgesSubtitle.textContent = t.lodgesSubtitle;
+
+  infoTitle.textContent = t.infoTitle;
+  infoSubtitle.textContent = t.infoSubtitle;
+  infoAccessTitle.textContent = t.infoAccessTitle;
+  infoAccessText.textContent = t.infoAccessText;
+  infoStayTitle.textContent = t.infoStayTitle;
+  infoStayText.textContent = t.infoStayText;
+  infoSustainTitle.textContent = t.infoSustainTitle;
+  infoSustainText.textContent = t.infoSustainText;
+  infoContactTitle.textContent = t.infoContactTitle;
+  infoContactText.textContent = t.infoContactText;
+
+  lodgeFilterButtons.forEach(btn => {
+    if (btn.dataset.type === "all") btn.textContent = t.lodgeFilterAll;
+    if (btn.dataset.type === "quiet") btn.textContent = t.lodgeFilterQuiet;
+    if (btn.dataset.type === "romantic") btn.textContent = t.lodgeFilterRomantic;
+    if (btn.dataset.type === "wild") btn.textContent = t.lodgeFilterWild;
+    if (btn.dataset.type === "cozy") btn.textContent = t.lodgeFilterCozy;
+  });
+
+  document.documentElement.lang = lang;
+}
+
+langButtons.forEach(btn => {
+  btn.addEventListener("click", () => {
+    langButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    setLanguage(btn.dataset.lang);
+  });
+});
+
+/* === INIT === */
+setLanguage("fr");
+renderQuestion();
+renderMoodCards();
+updateProfileAndFavorites();
+renderLodges("all");
+showView("welcome");
+</script>
+
 </body>
 </html>
-
-
