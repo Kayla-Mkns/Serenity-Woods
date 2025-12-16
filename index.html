@@ -2,6 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Serenity Woods – Find your calm in the wild</title>
  <style>
 :root {
@@ -859,6 +860,55 @@ body {
     padding: 10px 40px 8px;
   }
 }
+/* Version téléphone */
+@media (max-width: 768px) {
+
+  /* Tout colle moins aux bords */
+  body {
+    padding: 0;
+    margin: 0;
+  }
+
+  .page-wrapper,
+  .main-padding,
+  .hero-container {
+    padding-inline: 16px;
+  }
+
+  /* Les blocs qui sont côte à côte passent l'un sous l'autre */
+  .hero-layout,
+  .quiz-layout {
+    display: block;
+  }
+
+  /* Le bloc doré prend toute la largeur */
+  .side-card,
+  .side-card-inner {
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 16px;
+  }
+
+  /* Boutons bien lisibles et larges */
+  .primary-btn,
+  .secondary-btn {
+    width: 100%;
+    text-align: center;
+  }
+
+  /* Titres un peu plus petits sur mobile */
+  h1,
+  .hero-title {
+    font-size: 1.8rem;
+    line-height: 1.2;
+  }
+
+  h2,
+  .section-title {
+    font-size: 1.4rem;
+  }
+}
+
 </style>
 
 </head>
